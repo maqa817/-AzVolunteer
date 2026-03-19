@@ -1,0 +1,40 @@
+================================================================
+           VOLUNTEER REGISTRATION DATA
+           Azerbaijan National Volunteer Platform
+================================================================
+
+PERSONAL INFORMATION
+----------------------------------------------------------------
+Full Name       : maqa elo
+Date of Birth   : 03.05.2004
+Gender          : male
+FIN Code        : N/A
+ID Number       : N/A
+
+CONTACT INFORMATION
+----------------------------------------------------------------
+Phone           : +994558799600
+Email           : nuraqa2006@gmail.com
+Password        : Leomaqa02.
+City            : Baku
+Address         : N/A
+
+EDUCATION
+----------------------------------------------------------------
+Education Level : Master's
+University      : Ufaz
+Field of Study  : Chemical Engineering
+
+SKILLS & PREFERENCES
+----------------------------------------------------------------
+Skills          : Data Analysis, First Aid
+Volunteer Pref. : Environment, Education
+
+MOTIVATION LETTER
+----------------------------------------------------------------
+BL blA
+
+================================================================
+Registration Date : 08.03.2026, 16:19:08
+File Generated    : maqa_elo_1772972348252.txt
+================================================================

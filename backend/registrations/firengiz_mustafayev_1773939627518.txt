@@ -1,0 +1,40 @@
+================================================================
+           VOLUNTEER REGISTRATION DATA
+           Azerbaijan National Volunteer Platform
+================================================================
+
+PERSONAL INFORMATION
+----------------------------------------------------------------
+Full Name       : firengiz mustafayev
+Date of Birth   : 06.06.2006
+Gender          : female
+FIN Code        : N/A
+ID Number       : N/A
+
+CONTACT INFORMATION
+----------------------------------------------------------------
+Phone           : +9942312313123
+Email           : dasdasd@gmail.com
+Password        : Leomaqa02.
+City            : baku
+Address         : N/A
+
+EDUCATION
+----------------------------------------------------------------
+Education Level : Bachelor's
+University      : Ufaz
+Field of Study  : Chemical Engineering
+
+SKILLS & PREFERENCES
+----------------------------------------------------------------
+Skills          : Data Analysis, Teaching
+Volunteer Pref. : Youth Programs
+
+MOTIVATION LETTER
+----------------------------------------------------------------
+asd
+
+================================================================
+Registration Date : 19.03.2026, 21:00:27
+File Generated    : firengiz_mustafayev_1773939627518.txt
+================================================================

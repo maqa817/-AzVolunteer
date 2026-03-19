@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(uuid())
+  firstName        String
+  lastName         String
+  email            String            @unique
+  phone            String            @unique
+  passwordHash     String
+  role             Role              @default(volunteer)
+  status           UserStatus        @default(pending)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  deletedAt        DateTime?
+  plainPassword    String?
+  applications     Application[]
+  certificates     Certificate[]
+  chemicalProfile  ChemicalProfile?
+  notifications    Notification[]
+  volunteerProfile VolunteerProfile?
+
+  @@index([email])
+  @@index([phone])
+  @@map("users")
+}
+
+model VolunteerProfile {
+  id                   String    @id @default(uuid())
+  userId               String    @unique
+  dateOfBirth          DateTime?
+  gender               String?
+  finCode              String?
+  idNumber             String?
+  city                 String?
+  address              String?
+  educationLevel       String?
+  university           String?
+  fieldOfStudy         String?
+  skills               String[]
+  volunteerPreferences String[]
+  motivationLetter     String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  deletedAt            DateTime?
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("volunteer_profiles")
+}
+
+model ChemicalProfile {
+  id               String    @id @default(uuid())
+  userId           String    @unique
+  specialization   String?
+  softwareSkills   String[]
+  laboratorySkills String[]
+  industrialSkills String[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("chemical_profiles")
+}
+
+model Project {
+  id                          String          @id @default(uuid())
+  title                       String
+  description                 String
+  category                    String
+  requiredSkills              String[]
+  requiredSoftware            String[]
+  safetyCertificationRequired Boolean         @default(false)
+  complexityLevel             ComplexityLevel @default(medium)
+  isActive                    Boolean         @default(true)
+  createdAt                   DateTime        @default(now())
+  updatedAt                   DateTime        @updatedAt
+  deletedAt                   DateTime?
+  descriptionAz               String?
+  titleAz                     String?
+  benefits                    String?
+  benefitsAz                  String?
+  location                    String?
+  locationAz                  String?
+  requirements                String?
+  requirementsAz              String?
+  applications                Application[]
+
+  @@map("projects")
+}
+
+model Application {
+  id        String            @id @default(uuid())
+  userId    String
+  projectId String
+  status    ApplicationStatus @default(pending)
+  notes     String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  deletedAt DateTime?
+  project   Project           @relation(fields: [projectId], references: [id])
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@map("applications")
+}
+
+model Certificate {
+  id          String    @id @default(uuid())
+  userId      String
+  title       String
+  description String?
+  issuedAt    DateTime  @default(now())
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("certificates")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model AdminUser {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@map("admin_users")
+}
+
+enum Role {
+  volunteer
+  admin
+}
+
+enum UserStatus {
+  pending
+  approved
+  rejected
+}
+
+enum ApplicationStatus {
+  pending
+  approved
+  rejected
+}
+
+enum ComplexityLevel {
+  low
+  medium
+  high
+  expert
+}
