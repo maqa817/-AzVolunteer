@@ -1,13 +1,4 @@
 {
   "version": 2,
-  "name": "azvolunteer-frontend",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url"
-  }
+  "name": "azvolunteer-frontend"
 }
