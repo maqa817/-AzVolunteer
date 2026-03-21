@@ -11,8 +11,12 @@ const adminRoutes = require('./routes/admin');
 const applicationRoutes = require('./routes/applications');
 const projectRoutes = require('./routes/projects');
 
-const app = express();
 const PORT = process.env.PORT || 5000;
+const app = express();
+
+// Trust Vercel Proxy
+app.set('trust proxy', 1);
+
 
 // ── Security ────────────────────────────────────────────────────────────────
 app.use(helmet());
@@ -27,9 +31,11 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Allow relative requests (same domain) or allowed origins
+      if (!origin || allowedOrigins.some(ao => origin.startsWith(ao))) {
         callback(null, true);
       } else {
+
         callback(new Error('Not allowed by CORS'));
       }
     },
@@ -98,10 +104,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ── Start ─────────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`🚀 AzVolunteer API running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 AzVolunteer API running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
+
 
 module.exports = app;
