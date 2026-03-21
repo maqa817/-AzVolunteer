@@ -222,7 +222,7 @@ export default function ProjectsPage() {
                     </div>
                 ) : projects.length > 0 ? (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {projects.map((project) => (
+                        {(user ? projects : projects.slice(0, 6)).map((project) => (
                             <div key={project.id} className="group card !p-0 flex flex-col h-full bg-[#132b1a] hover:bg-[#1a3d22] transition-colors duration-500 border-white/5 shadow-2xl overflow-hidden shadow-black/40">
                                 {/* Card Header Gradient */}
                                 <div className="h-3 bg-gradient-to-r from-green-600 via-lime-500 to-emerald-600 opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -284,6 +284,33 @@ export default function ProjectsPage() {
                                 </div>
                             </div>
                         ))}
+
+                        {/* Login to see more CTA */}
+                        {!user && projects.length > 6 && (
+                            <div className="group card flex flex-col items-center justify-center text-center p-12 bg-green-950/20 border-2 border-dashed border-green-500/20 hover:border-green-500/40 transition-all rounded-[32px] relative overflow-hidden h-full">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
+                                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500 ring-4 ring-green-500/5">
+                                    <Sparkles size={28} className="text-green-500" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-4">{t('projects.login_to_see_more')}</h3>
+                                <p className="text-slate-400 text-sm mb-10 max-w-[240px] italic font-medium opacity-80">{t('projects.login_to_see_more_desc')}</p>
+                                <div className="flex flex-col gap-4 w-full px-4">
+                                    <Link
+                                        href="/auth/login"
+                                        className="btn-primary w-full py-4 uppercase text-[10px] font-black tracking-[0.2em] shadow-xl shadow-green-900/20"
+                                    >
+                                        {t('projects.sign_in_cta')}
+                                    </Link>
+                                    <Link
+                                        href="/auth/register"
+                                        className="text-slate-400 hover:text-green-400 text-[10px] font-black uppercase tracking-[0.2em] transition-colors"
+                                    >
+                                        {t('projects.register_cta')}
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 ) : (
                     <div className="text-center py-40">

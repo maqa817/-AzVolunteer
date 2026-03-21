@@ -211,8 +211,13 @@
       "medium": "Orta",
       "high": "Çətin",
       "expert": "Ekspert"
-    }
+    },
+    "login_to_see_more": "Daha çox layihə görmək üçün daxil olun",
+    "login_to_see_more_desc": "Bütün 18+ aktiv layihələrə və texniki imkanlara çıxış əldə etmək üçün hesabınıza daxil olun və ya qeydiyyatdan keçin.",
+    "sign_in_cta": "Daxil ol",
+    "register_cta": "Qeydiyyat"
   },
+
   "footer": {
     "copyright": "© 2024 AzVolunteer. Azərbaycan Milli Könüllülük Platforması."
   }

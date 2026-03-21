@@ -211,8 +211,13 @@
       "medium": "Medium",
       "high": "Hard",
       "expert": "Expert"
-    }
+    },
+    "login_to_see_more": "Sign in to see more projects",
+    "login_to_see_more_desc": "Login or register to access all 18+ active projects and technical opportunities available for our community.",
+    "sign_in_cta": "Sign In",
+    "register_cta": "Register"
   },
+
   "footer": {
     "copyright": "© 2024 AzVolunteer. Azerbaijan National Volunteer Platform."
   }
