@@ -142,7 +142,7 @@ export default function Navbar() {
 
             {/* Language switcher */}
             <div className="flex items-center justify-between bg-slate-50 p-5 rounded-2xl border border-slate-100 mb-8">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Language</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('common.language')}</span>
               <div className="flex gap-2">
                 <button
                   onClick={() => { changeLocale('az'); closeMenu(); }}

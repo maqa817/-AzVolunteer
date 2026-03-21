@@ -111,13 +111,13 @@ export default function RegisterPage() {
       const { token, user } = res.data;
       localStorage.setItem('azv_token', token);
       localStorage.setItem('azv_user', JSON.stringify(user));
-      toast.success('Qeydiyyat tamamlandı! Xoş gəldiniz.');
+      toast.success(t('auth.register_success'));
       router.push('/dashboard');
     } catch (err: any) {
       if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
         toast.error(err.response.data.errors.map((e: any) => e.msg).join(', '));
       } else {
-        toast.error(err.response?.data?.message || 'Qeydiyyat uğursuz oldu. Yenidən cəhd edin.');
+        toast.error(err.response?.data?.message || t('auth.register_fail'));
       }
     } finally {
       setLoading(false);
@@ -144,7 +144,7 @@ export default function RegisterPage() {
           className="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 transition-colors font-semibold text-xs uppercase tracking-widest mb-8 group"
         >
           <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform" />
-          Ana Səhifəyə qayıt
+          {t('auth.back_home')}
         </Link>
 
         {/* Header */}
@@ -156,7 +156,7 @@ export default function RegisterPage() {
             {t('auth.register_title')}
           </h1>
           <p className="text-slate-500 font-medium text-base leading-relaxed">
-            AzVolunteer platformasına qoşulmaq üçün formu doldurun
+            {t('auth.register_subtitle')}
           </p>
         </div>
 
@@ -199,7 +199,7 @@ export default function RegisterPage() {
                   </div>
                   <div>
                     <h2 className="text-xl font-extrabold text-slate-900">{t('auth.account_data_title')}</h2>
-                    <p className="text-slate-400 text-sm font-medium mt-0.5">Şəxsi məlumatlarınızı daxil edin</p>
+                    <p className="text-slate-400 text-sm font-medium mt-0.5">{t('auth.personal_info_desc')}</p>
                   </div>
                 </div>
 
@@ -228,7 +228,7 @@ export default function RegisterPage() {
                 <div>
                   <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.password')} *</label>
                   <input type="password" className="input-field" value={form.password} onChange={e => set('password', e.target.value)} required />
-                  <p className="text-[11px] text-slate-400 mt-2 font-medium">Minimum 8 simvol, rəqəm və böyük hərflər daxil edin</p>
+                  <p className="text-[11px] text-slate-400 mt-2 font-medium">{t('auth.pass_hint')}</p>
                 </div>
 
                 <button
@@ -256,7 +256,7 @@ export default function RegisterPage() {
                   </div>
                   <div>
                     <h2 className="text-xl font-extrabold text-slate-900">{t('auth.volunteer_profile_title')}</h2>
-                    <p className="text-slate-400 text-sm font-medium mt-0.5">İxtisas və təcrübə məlumatları</p>
+                    <p className="text-slate-400 text-sm font-medium mt-0.5">{t('auth.volunteer_profile_desc')}</p>
                   </div>
                 </div>
 
@@ -283,7 +283,7 @@ export default function RegisterPage() {
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.education')} *</label>
                     <select className="input-field appearance-none cursor-pointer" value={form.educationLevel} onChange={e => set('educationLevel', e.target.value)} required>
-                      <option value="">Səviyyəni Seçin</option>
+                      <option value="">{t('auth.select_default')}</option>
                       {EDUCATION_LEVELS.map(e => <option key={e} value={e}>{e}</option>)}
                     </select>
                   </div>
@@ -302,7 +302,7 @@ export default function RegisterPage() {
                       onChange={e => set('fieldOfStudy', e.target.value)}
                       required
                     >
-                      <option value="">İxtisas Seçin</option>
+                      <option value="">{t('auth.select_default')}</option>
                       {FIELDS_OF_STUDY.map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
                     {isChemical && (
@@ -316,8 +316,8 @@ export default function RegisterPage() {
 
                 {showOtherField && (
                   <div className="animate-slide-up">
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Digər ixtisas adını daxil edin</label>
-                    <input className="input-field" placeholder="İxtisas adını yazın..." value={form.fieldOfStudy} onChange={e => set('fieldOfStudy', e.target.value)} />
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.other_field_label')}</label>
+                    <input className="input-field" placeholder={t('auth.other_field_placeholder_full')} value={form.fieldOfStudy} onChange={e => set('fieldOfStudy', e.target.value)} />
                   </div>
                 )}
 
@@ -342,7 +342,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Könüllülük Maraq Sahələri *</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">{t('auth.interests_label')} *</label>
                   <div className="flex flex-wrap gap-2">
                     {VOLUNTEER_PREFS.map(pref => (
                       <button
@@ -362,13 +362,13 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.motivation')} *</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.motivation_label')} *</label>
                   <textarea
                     rows={4}
                     className="input-field resize-none !rounded-2xl leading-relaxed"
                     value={form.motivationLetter}
                     onChange={e => set('motivationLetter', e.target.value)}
-                    placeholder="Könüllü olmaq motivasiyanız haqqında qısa məlumat verin..."
+                    placeholder={t('auth.motivation_placeholder_full')}
                     required
                   />
                 </div>
@@ -378,7 +378,7 @@ export default function RegisterPage() {
                     className="flex-1 py-4 rounded-2xl font-bold text-sm bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-200 flex items-center justify-center gap-2 transition-all"
                     onClick={() => setStep(1)}
                   >
-                    <ChevronLeft size={16} /> Geri
+                    <ChevronLeft size={16} /> {t('common.back')}
                   </button>
                   <button
                     className="btn-primary flex-[2] !py-4 !rounded-2xl"
@@ -390,7 +390,7 @@ export default function RegisterPage() {
                       setStep(3);
                     }}
                   >
-                    <span>Növbəti</span>
+                    <span>{t('common.next')}</span>
                     <ChevronRight size={18} />
                   </button>
                 </div>
@@ -408,27 +408,27 @@ export default function RegisterPage() {
                       </div>
                       <div>
                         <h2 className="text-xl font-extrabold text-slate-900">{t('auth.chemical_section')}</h2>
-                        <p className="text-blue-500 text-[10px] font-black uppercase tracking-widest mt-0.5">Mühəndislik Portfeli</p>
+                        <p className="text-blue-500 text-[10px] font-black uppercase tracking-widest mt-0.5">{t('auth.technical_ready_title')}</p>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Core Specialization</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t('auth.specialization')}</label>
                       <select
                         className="input-field appearance-none cursor-pointer"
                         value={form.specialization}
                         onChange={e => set('specialization', e.target.value)}
                       >
-                        <option value="">Select Path</option>
+                        <option value="">{t('auth.select_default')}</option>
                         {SPECIALIZATION_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                        <option value="Other">Custom Spec</option>
+                        <option value="Other">{t('auth.other_option')}</option>
                       </select>
                     </div>
 
                     {[
-                      { key: 'softwareSkills', label: 'Tech / Software', options: SOFTWARE_OPTIONS, icon: <Monitor size={14} /> },
-                      { key: 'laboratorySkills', label: 'Lab Operations', options: LAB_OPTIONS, icon: <FlaskConical size={14} /> },
-                      { key: 'industrialSkills', label: 'Industrial Protocols', options: INDUSTRIAL_OPTIONS, icon: <ShieldCheck size={14} /> },
+                      { key: 'softwareSkills', label: t('auth.software_skills'), options: SOFTWARE_OPTIONS, icon: <Monitor size={14} /> },
+                      { key: 'laboratorySkills', label: t('auth.lab_skills'), options: LAB_OPTIONS, icon: <FlaskConical size={14} /> },
+                      { key: 'industrialSkills', label: t('auth.industrial_skills'), options: INDUSTRIAL_OPTIONS, icon: <ShieldCheck size={14} /> },
                     ].map(({ key, label, options, icon }) => (
                       <div key={key} className="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-100">
                         <label className="block text-[11px] font-black uppercase tracking-widest text-slate-700 mb-4 flex items-center gap-2">
@@ -458,9 +458,9 @@ export default function RegisterPage() {
                     <div className="w-20 h-20 rounded-3xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-500 mx-auto mb-8 shadow-lg shadow-emerald-100/30">
                       <Heart size={36} className="fill-emerald-500/10" />
                     </div>
-                    <h2 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Profil Hazırdır</h2>
+                    <h2 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">{t('auth.technical_ready_title')}</h2>
                     <p className="text-slate-500 text-base font-medium max-w-sm mx-auto">
-                      Məlumatlarınız tamdır. Qeydiyyatı tamamlamaq üçün aşağıdakı düyməyə klikləyin.
+                      {t('auth.technical_ready_desc')}
                     </p>
                   </div>
                 )}
@@ -482,7 +482,7 @@ export default function RegisterPage() {
                     ) : (
                       <>
                         <ShieldCheck size={18} />
-                        <span>Qeydiyyatı Tamamla</span>
+                        <span>{t('auth.submit_register')}</span>
                       </>
                     )}
                   </button>
@@ -494,9 +494,9 @@ export default function RegisterPage() {
 
         {/* Footer link */}
         <p className="text-center mt-8 text-sm text-slate-500 font-medium">
-          Artıq hesabınız var?{' '}
+          {t('auth.have_account')}{' '}
           <Link href="/auth/login" className="text-emerald-600 hover:text-emerald-700 font-bold transition-colors">
-            Daxil Olun
+            {t('auth.submit_login')}
           </Link>
         </p>
       </div>

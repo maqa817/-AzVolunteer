@@ -221,7 +221,7 @@ export default function DashboardPage() {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm mb-1">Verification in Progress</h4>
+                  <h4 className="text-white font-bold text-sm mb-1">{t('dashboard.verification_in_progress')}</h4>
                   <p className="text-xs text-slate-500 font-medium italic">{t('dashboard.pending_notice')}</p>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function DashboardPage() {
                       {data.technicalScore}%
                     </div>
                     <div className="mt-4 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-green-500/60 justify-center md:justify-end">
-                      <Zap size={12} /> Tech STEM Rank
+                      <Zap size={12} /> {t('dashboard.tech_stem_rank')}
                     </div>
                   </div>
                 </div>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
                       {data.notifications.length === 0 && (
                         <div className="flex flex-col items-center justify-center py-10 opacity-30 italic">
                           <Bell size={32} className="mb-4" />
-                          <p className="text-sm font-medium">No activity yet</p>
+                          <p className="text-sm font-medium">{t('dashboard.no_activity')}</p>
                         </div>
                       )}
                     </div>
@@ -371,16 +371,16 @@ export default function DashboardPage() {
                           {applying === project.id ? (
                             <span className="flex items-center justify-center gap-2">
                               <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                              Applying...
+                              {t('dashboard.projects.applying_btn')}
                             </span>
                           ) : applied ? (
                             <span className="flex items-center justify-center gap-2">
                               <ShieldCheck size={14} className="text-green-400 animate-pulse" />
-                              Successfully Applied
+                              {t('dashboard.projects.applied_btn')}
                             </span>
                           ) : (
                             <span className="flex items-center justify-center gap-2">
-                              Join Project <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                              {t('dashboard.projects.join_project')} <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                             </span>
                           )}
                         </button>
@@ -414,7 +414,7 @@ export default function DashboardPage() {
                         </h4>
                         <div className="flex items-center gap-4">
                           <ComplexityDots level={app.project.complexityLevel} />
-                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-700">Project Reference: {app.id.slice(0, 8)}</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-700">{t('dashboard.project_reference')}: {app.id.slice(0, 8)}</span>
                         </div>
                       </div>
                       <div className="shrink-0 flex items-center gap-8">
@@ -477,7 +477,7 @@ export default function DashboardPage() {
                         <Award size={48} className="text-slate-400" />
                       </div>
                       <h4 className="text-xl font-bold text-white mb-2">{t('dashboard.no_certificates')}</h4>
-                      <p className="text-slate-500 font-medium italic">Complete projects to grow your legacy</p>
+                      <p className="text-slate-500 font-medium italic">{t('dashboard.complete_for_legacy')}</p>
                     </div>
                   )}
                   {data.certificates.map((cert) => (
@@ -494,13 +494,13 @@ export default function DashboardPage() {
                             ID: {cert.id.slice(0, 12)}
                           </span>
                           <span className="text-[10px] font-black uppercase tracking-widest text-green-500">
-                            Issued: {new Date(cert.issuedAt).toLocaleDateString('az-AZ')}
-                          </span>
-                        </div>
-                        <button className="mt-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-                          Download PDF <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                        </button>
+                          {t('dashboard.issued')}: {new Date(cert.issuedAt).toLocaleDateString(locale === 'az' ? 'az-AZ' : 'en-US')}
+                        </span>
                       </div>
+                      <button className="mt-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
+                        {t('dashboard.download_pdf')} <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      </button>
+                    </div>
                     </div>
                   ))}
                 </div>

@@ -19,26 +19,44 @@ export default function Footer() {
                 Az<span className="text-emerald-500">Volunteer</span>
               </span>
             </Link>
-            <p className="text-slate-500 max-w-xs font-medium">
-              Azərbaycanın milli könüllülük və texniki inkişaf platforması. Join our community today.
+            <p className="text-slate-500 max-w-xs font-medium leading-relaxed">
+              {t('footer.desc')}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-12">
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Platform</span>
-              <Link href="/projects" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">Layihələr</Link>
-              <Link href="/auth/register" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">Qeydiyyat</Link>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                {t('footer.platform')}
+              </span>
+              <Link href="/projects" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                {t('nav.projects')}
+              </Link>
+              <Link href="/auth/register" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                {t('nav.register')}
+              </Link>
             </div>
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">İttifaq</span>
-              <Link href="/auth/login" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">Giriş</Link>
-              <a href="#" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">Haqqımızda</a>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                {t('nav.login')}
+              </span>
+              <Link href="/auth/login" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                {t('nav.login')}
+              </Link>
+              <Link href="/#about" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                {t('footer.about')}
+              </Link>
             </div>
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sosial</span>
-              <a href="#" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">LinkedIn</a>
-              <a href="#" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">Instagram</a>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                {t('footer.social')}
+              </span>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                LinkedIn
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                Instagram
+              </a>
             </div>
           </div>
         </div>
@@ -48,8 +66,8 @@ export default function Footer() {
             {t('footer.copyright')}
           </p>
           <div className="flex gap-8 text-sm font-bold text-slate-500">
-            <a href="#" className="hover:text-emerald-600 transition-colors">Şərtlər</a>
-            <a href="#" className="hover:text-emerald-600 transition-colors">Məxfilik</a>
+            <a href="#" className="hover:text-emerald-600 transition-colors">{t('footer.terms')}</a>
+            <a href="#" className="hover:text-emerald-600 transition-colors">{t('footer.privacy')}</a>
           </div>
         </div>
       </div>

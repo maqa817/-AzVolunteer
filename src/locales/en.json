@@ -5,7 +5,9 @@
     "projects": "Projects",
     "contact": "Contact",
     "login": "Sign In",
-    "register": "Register",
+    "register_title": "Become a Volunteer",
+    "register_subtitle": "Fill out the form to join the AzVolunteer platform",
+    "submit_register": "Register",
     "dashboard": "Dashboard",
     "logout": "Logout"
   },
@@ -16,9 +18,12 @@
     "subtitle": "Join 5,000+ volunteers contributing to our nation's progress. Special technical projects for STEM professionals.",
     "cta_primary": "Register Now",
     "cta_secondary": "Explore Projects",
-    "stat_volunteers": "Explorers",
+    "stat_volunteers": "Volunteers",
     "stat_projects": "Active Missions",
-    "stat_cities": "Bases"
+    "stat_cities": "Cities",
+    "social_proof": "5,000+ volunteers trust the platform",
+    "stat_volunteers_small": "Active volunteers",
+    "stat_projects_small": "Active projects"
   },
   "theme": {
     "ecosystem": "Nature-Inspired Ecosystem",
@@ -34,7 +39,6 @@
   },
   "auth": {
     "login_title": "Sign in to your account",
-    "register_title": "Volunteer Registration",
     "email": "Email address",
     "password": "Password",
     "first_name": "First Name",
@@ -54,7 +58,6 @@
     "skills": "Skills",
     "preferences": "Volunteer Preferences",
     "motivation": "Motivation Letter",
-    "submit_register": "Create Account",
     "submit_login": "Sign In",
     "login_subtitle": "Sign in to your account and join projects",
     "welcome_msg": "Welcome back!",
@@ -73,12 +76,25 @@
     "step_account": "Account",
     "step_profile": "Profile",
     "step_technical": "Technical",
-    "account_data_title": "Account Information",
+    "account_data_title": "Account Details",
+    "personal_info_desc": "Enter your personal information",
+    "volunteer_profile_desc": "Specialization and experience details",
+    "pass_hint": "Minimum 8 characters, include numbers and uppercase letters",
+    "motivation_label": "Motivation Letter",
+    "motivation_placeholder_full": "Provide a brief description of your motivation to be a volunteer...",
+    "interests_label": "Volunteer Interests",
+    "other_field_label": "Enter other field of study",
+    "other_field_placeholder_full": "Type your field of study...",
+    "register_success": "Registration complete! Welcome.",
+    "register_fail": "Registration failed. Please try again.",
+    "secure_protocol": "Secure Protocol",
+    "ssl_verified": "SSL Verified",
     "volunteer_profile_title": "Volunteer Profile",
     "technical_ready_title": "You're all set!",
     "technical_ready_desc": "Chemical engineering profile is not required. Complete your registration.",
     "select_default": "Select",
     "other_option": "Other",
+    "back_home": "Back to Home",
     "validation": {
       "fill_all": "Please fill all required fields",
       "fill_profile": "Please fill all profile details",
@@ -125,10 +141,18 @@
       "certificates": "Certificates"
     },
     "projects": {
-      "apply_btn": "Apply Now",
-      "applying_btn": "Sending...",
-      "applied_btn": "Applied"
-    }
+      "apply_btn": "Apply now",
+      "applying_btn": "Applying...",
+      "applied_btn": "Successfully Applied",
+      "join_project": "Join Project"
+    },
+    "verification_in_progress": "Verification in Progress",
+    "tech_stem_rank": "Tech STEM Rank",
+    "no_activity": "No activity yet",
+    "project_reference": "Project Reference",
+    "complete_for_legacy": "Complete projects to grow your legacy",
+    "download_pdf": "Download PDF",
+    "issued": "Issued"
   },
   "admin": {
     "title": "Admin Panel",
@@ -143,8 +167,23 @@
     "create_project": "Create Project",
     "total_volunteers": "Total Volunteers",
     "pending_review": "Pending Review",
-    "approved_volunteers": "Approved",
-    "active_projects": "Active Projects"
+    "approved_volunteers": "Verified Staff",
+    "active_projects": "Live Projects",
+    "app_submissions": "App Submissions",
+    "system_files": "System Files",
+    "system_growth": "System Growth",
+    "view_profile": "View Profile",
+    "delete_user": "Delete User",
+    "user_status_updated": "User status updated",
+    "app_status_updated": "Application status updated",
+    "project_created": "Project created!",
+    "project_deleted": "Project deleted",
+    "load_error": "Could not load data",
+    "confirm_delete": "Are you sure you want to delete this item?",
+    "deployment_config": "Deployment Config",
+    "initiate_project": "Initiate Project",
+    "active_deployments": "Active Deployments",
+    "filesystem": "Filesystem"
   },
   "common": {
     "loading": "Loading...",
@@ -163,25 +202,66 @@
     "actions": "Actions",
     "name": "Name",
     "email": "Email",
-    "phone": "Phone",
-    "date": "Date"
+    "date": "Date",
+    "mission": "Mission",
+    "language": "Language"
+  },
+  "how_it_works": {
+    "badge": "How It Works",
+    "title": "Simple, Fast, ",
+    "titleHighlight": "Effective",
+    "subtitle": "Start your volunteer journey in 4 easy steps.",
+    "step1_title": "Register",
+    "step1_desc": "Fill a quick form, set your skills and interests.",
+    "step2_title": "Find Mission",
+    "step2_desc": "Browse dozens of active projects that fit your profile.",
+    "step3_title": "Apply easily",
+    "step3_desc": "Apply with one click and wait for approval.",
+    "step4_title": "Impact",
+    "step4_desc": "Make a real difference and earn your certificate."
+  },
+  "mission_section": {
+    "badge": "Our Mission",
+    "title": "Empowering youth to build ",
+    "titleHighlight": "Azerbaijan's Future",
+    "titleSuffix": " through STEM",
+    "desc": "AzVolunteer is a national platform that connects volunteers in STEM fields with projects contributing to the development of our country.",
+    "item1": "Earn certificates and recommendation letters",
+    "item2": "Work with professional teams",
+    "item3": "Solve real-world problems",
+    "item4": "Enhance your professional CV",
+    "cta": "Join Now"
   },
   "features": {
     "title": "Platform",
     "titleHighlight": "Features",
     "subtitle": "Azerbaijan's most modern volunteering platform — specifically designed for STEM specialists.",
-    "stem_title": "STEM & Chemical Engineering",
-    "stem_desc": "Specialized technical projects for chemical engineers with a compatibility scoring system.",
-    "secure_title": "Secure Platform",
+    "stem_title": "STEM & Chemicals",
+    "stem_desc": "Specialized projects for chemical engineers with compatibility scoring.",
+    "secure_title": "Secure Base",
     "secure_desc": "JWT authentication, bcrypt encryption, and full data protection.",
     "national_title": "National Scale",
-    "national_desc": "National volunteer network covering all cities of Azerbaijan.",
-    "management_title": "Project Management",
-    "management_desc": "Create projects, assign volunteers, and review applications via the admin panel."
+    "national_desc": "A volunteer network covering all cities of Azerbaijan.",
+    "management_title": "Management",
+    "management_desc": "Create projects, track volunteers, and manage applications."
+  },
+  "testimonials_section": {
+    "badge": "In their words",
+    "title": "Real ",
+    "titleHighlight": "Impact",
+    "user1_name": "Aynur Huseynova",
+    "user1_role": "Chemical Engineer",
+    "user1_text": "Thanks to AzVolunteer, I could use my professional skills for social good. The platform is truly heartfelt.",
+    "user2_name": "Tural Aliyev",
+    "user2_role": "Software Engineer",
+    "user2_text": "The registration process is very simple. The projects are meaningful. I feel truly valuable as a volunteer.",
+    "user3_name": "Leyla Mustafayeva",
+    "user3_role": "Env. Specialist",
+    "user3_text": "Projects across 12+ cities. This scale shows the seriousness of the platform. Strongly recommended!"
   },
   "cta_banner": {
-    "title": "Ready to become a volunteer?",
-    "subtitle": "Join us to shape the future of Azerbaijan.",
+    "title": "Ready to step up?",
+    "subtitle": "Join us to shape the future of Azerbaijan together.",
     "button": "Register Now"
   },
   "projects": {
@@ -214,11 +294,23 @@
     },
     "login_to_see_more": "Register to Join Missions",
     "login_to_see_more_desc": "Sign in or create an account to apply for any of these active projects and start your volunteer journey with us.",
-    "sign_in_cta": "Sign In",
-    "register_cta": "Register"
+    "register_cta": "Register",
+    "available_missions": "Available Missions",
+    "deadline": "Deadline",
+    "modal_level": "Level",
+    "about_mission": "About Mission",
+    "modal_location": "Location",
+    "modal_skills": "Required Skills",
+    "join_mission": "Join Mission",
+    "empty_state_subtitle": "Try different search criteria or filters"
   },
-
   "footer": {
-    "copyright": "© 2024 AzVolunteer. Azerbaijan National Volunteer Platform."
+    "desc": "The national platform for volunteering and technical development in Azerbaijan. Together we are stronger.",
+    "platform": "Platform",
+    "social": "Social",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "about": "About Us",
+    "copyright": "© 2024 AzVolunteer. National Volunteer Platform of Azerbaijan."
   }
 }

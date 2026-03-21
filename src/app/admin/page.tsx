@@ -11,6 +11,7 @@ import {
 import { useAuth } from '../../lib/auth-context';
 import { adminApi } from '../../lib/api';
 import Navbar from '../../components/layout/Navbar';
+import { useI18n } from '../../hooks/useI18n';
 
 interface Stats {
   totalUsers: number;
@@ -87,6 +88,7 @@ interface ApplicationRow {
 
 export default function AdminPage() {
   const { user, loading: authLoading } = useAuth();
+  const { t, locale } = useI18n();
   const router = useRouter();
   const [tab, setTab] = useState('stats');
   const [stats, setStats] = useState<Stats | null>(null);
@@ -125,62 +127,62 @@ export default function AdminPage() {
     try {
       const res = await adminApi.getStats();
       setStats(res.data.stats);
-    } catch { toast.error('Stats yüklənə bilmədi'); }
+    } catch { toast.error(t('admin.load_error')); }
   };
 
   const fetchUsers = async () => {
     try {
       const res = await adminApi.getUsers({ search: search || undefined, status: statusFilter || undefined });
       setUsers(res.data.data);
-    } catch { toast.error('İstifadəçilər yüklənə bilmədi'); }
+    } catch { toast.error(t('admin.load_error')); }
   };
 
   const fetchProjects = async () => {
     try {
       const res = await adminApi.getProjects();
       setProjects(res.data.data);
-    } catch { toast.error('Layihələr yüklənə bilmədi'); }
+    } catch { toast.error(t('admin.load_error')); }
   };
 
   const fetchApplications = async () => {
     try {
       const res = await adminApi.getApplications({ status: statusFilter || undefined });
       setApplications(res.data.data);
-    } catch { toast.error('Müraciətlər yüklənə bilmədi'); }
+    } catch { toast.error(t('admin.load_error')); }
   };
 
   const fetchFiles = async () => {
     try {
       const res = await adminApi.listFiles();
       setFiles(res.data.files);
-    } catch { toast.error('Fayllar yüklənə bilmədi'); }
+    } catch { toast.error(t('admin.load_error')); }
   };
 
   const updateStatus = async (id: string, status: string) => {
     try {
       await adminApi.updateUserStatus(id, status);
-      toast.success('İstifadəçi statusu yeniləndi');
+      toast.success(t('admin.user_status_updated'));
       fetchUsers();
       fetchStats();
-    } catch { toast.error('Xəta baş verdi'); }
+    } catch { toast.error(t('common.error')); }
   };
 
   const updateAppStatus = async (id: string, status: string) => {
     try {
       await adminApi.updateApplicationStatus(id, status);
-      toast.success('Müraciət statusu yeniləndi');
+      toast.success(t('admin.app_status_updated'));
       fetchApplications();
-    } catch { toast.error('Xəta baş verdi'); }
+    } catch { toast.error(t('common.error')); }
   };
 
   const handleDeleteUser = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this explorer? This action is permanent.')) return;
+    if (!window.confirm(t('admin.confirm_delete'))) return;
     try {
       await adminApi.deleteUser(id);
-      toast.success('Explorer deleted');
+      toast.success(t('common.success'));
       fetchUsers();
       fetchStats();
-    } catch { toast.error('Could not delete explorer'); }
+    } catch { toast.error(t('common.error')); }
   };
 
   const createProject = async () => {
@@ -230,11 +232,11 @@ export default function AdminPage() {
   };
 
   const sidebarTabs = [
-    { id: 'stats', label: 'Statistika', icon: <LayoutDashboard size={18} /> },
-    { id: 'users', label: 'İstifadəçilər', icon: <Users size={18} /> },
-    { id: 'projects', label: 'Layihələr', icon: <FolderOpen size={18} /> },
-    { id: 'applications', label: 'Müraciətlər', icon: <FileText size={18} /> },
-    { id: 'files', label: 'Fayllar', icon: <Download size={18} /> },
+    { id: 'stats', label: t('admin.stats'), icon: <LayoutDashboard size={18} /> },
+    { id: 'users', label: t('admin.users'), icon: <Users size={18} /> },
+    { id: 'projects', label: t('admin.projects'), icon: <FolderOpen size={18} /> },
+    { id: 'applications', label: t('admin.applications'), icon: <FileText size={18} /> },
+    { id: 'files', label: t('admin.files'), icon: <Download size={18} /> },
   ];
 
   const StatusBadge = ({ status }: { status: string }) => {
@@ -316,12 +318,12 @@ export default function AdminPage() {
               <div className="space-y-8">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   {[
-                    { label: 'Total Volunteers', value: stats.totalUsers, icon: <Users size={24} />, color: 'bg-green-500' },
-                    { label: 'Pending Review', value: stats.pendingUsers, icon: <Clock size={24} />, color: 'bg-amber-500' },
-                    { label: 'Verified Staff', value: stats.approvedUsers, icon: <CheckCircle size={24} />, color: 'bg-emerald-500' },
-                    { label: 'Live Projects', value: stats.totalProjects, icon: <FolderOpen size={24} />, color: 'bg-lime-500' },
-                    { label: 'App Submissions', value: stats.totalApplications, icon: <BarChart3 size={24} />, color: 'bg-teal-500' },
-                    { label: 'System Files', value: stats.registrationFiles, icon: <FileText size={24} />, color: 'bg-emerald-600' },
+                    { label: t('admin.total_volunteers'), value: stats.totalUsers, icon: <Users size={24} />, color: 'bg-green-500' },
+                    { label: t('admin.pending_review'), value: stats.pendingUsers, icon: <Clock size={24} />, color: 'bg-amber-500' },
+                    { label: t('admin.approved_volunteers'), value: stats.approvedUsers, icon: <CheckCircle size={24} />, color: 'bg-emerald-500' },
+                    { label: t('admin.active_projects'), value: stats.totalProjects, icon: <FolderOpen size={24} />, color: 'bg-lime-500' },
+                    { label: t('admin.app_submissions'), value: stats.totalApplications, icon: <BarChart3 size={24} />, color: 'bg-teal-500' },
+                    { label: t('admin.system_files'), value: stats.registrationFiles, icon: <FileText size={24} />, color: 'bg-emerald-600' },
                   ].map((s, i) => (
                     <div key={i} className="card p-8 bg-[#0f2318]/60 border-white/5 hover:border-green-500/20 transition-all group overflow-hidden relative">
                       <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-150 group-hover:rotate-12 transition-transform duration-1000">
@@ -380,10 +382,10 @@ export default function AdminPage() {
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
-                    <option value="">Status: All</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="">{t('dashboard.status.all')}</option>
+                    <option value="pending">{t('dashboard.status.pending')}</option>
+                    <option value="approved">{t('dashboard.status.approved')}</option>
+                    <option value="rejected">{t('dashboard.status.rejected')}</option>
                   </select>
                 </div>
 
@@ -402,14 +404,14 @@ export default function AdminPage() {
                             <StatusBadge status={u.status} />
                             {u.chemicalProfile && (
                               <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                                <FlaskConical size={10} /> Scientist
+                                <FlaskConical size={10} /> {t('auth.specialization_chemical')}
                               </span>
                             )}
                           </div>
                           <div className="text-xs text-slate-500 font-medium italic mb-2">{u.email} • {u.phone}</div>
                           <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-700">
                             <span className="flex items-center gap-1"><MapPin size={12} /> {u.volunteerProfile?.city || 'Globe'}</span>
-                            <span className="flex items-center gap-1"><FileText size={12} /> {u._count.applications} Applications</span>
+                            <span className="flex items-center gap-1"><FileText size={12} /> {u._count.applications} {t('admin.applications')}</span>
                           </div>
                         </div>
                       </div>
@@ -419,7 +421,7 @@ export default function AdminPage() {
                           onClick={() => setSelectedUser(u)}
                           className="px-6 py-3 bg-[#0a1a0f] text-slate-400 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-white hover:bg-black transition-all"
                         >
-                          View Profile
+                          {t('admin.view_profile')}
                         </button>
 
                         <div className="flex gap-2">
@@ -583,19 +585,19 @@ export default function AdminPage() {
             {tab === 'projects' && (
               <div className="space-y-8">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-black text-white tracking-tight">Active Deployments</h3>
+                  <h3 className="text-2xl font-black text-white tracking-tight">{t('admin.active_deployments')}</h3>
                   <button
                     onClick={() => setShowCreateProject(!showCreateProject)}
                     className={`btn-primary !px-8 !py-4 group ${showCreateProject ? 'bg-rose-500 border-rose-500' : ''}`}
                   >
                     {showCreateProject ? <XCircle size={18} /> : <Plus size={18} className="group-hover:rotate-90 transition-transform" />}
-                    <span className="text-[10px] font-black uppercase tracking-widest">{showCreateProject ? 'Cancel' : 'Initiate Project'}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{showCreateProject ? t('common.cancel') : t('admin.initiate_project')}</span>
                   </button>
                 </div>
 
                 {showCreateProject && (
                   <div className="card p-10 bg-emerald-950/20 border-green-500/20 rounded-[40px] animate-slide-up">
-                    <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8">deployment Config</h3>
+                    <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8">{t('admin.deployment_config')}</h3>
                     <div className="grid lg:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <div>
@@ -617,12 +619,12 @@ export default function AdminPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Complexity Rank</label>
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">{t('admin.complexity_rank')}</label>
                           <select className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6 appearance-none" value={newProject.complexityLevel} onChange={(e) => setNewProject(p => ({ ...p, complexityLevel: e.target.value }))}>
-                            <option value="low">Low Level</option>
-                            <option value="medium">Medium Rank</option>
-                            <option value="high">High Class</option>
-                            <option value="expert">Expert Operations</option>
+                            <option value="low">{t('projects.complexity.low')}</option>
+                            <option value="medium">{t('projects.complexity.medium')}</option>
+                            <option value="high">{t('projects.complexity.high')}</option>
+                            <option value="expert">{t('projects.complexity.expert')}</option>
                           </select>
                         </div>
                       </div>
@@ -668,9 +670,9 @@ export default function AdminPage() {
                       </div>
                       <div className="space-y-6">
                         <div className="flex gap-4">
-                          <button className="flex-1 py-5 bg-white/5 text-slate-500 rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 hover:text-white transition-all" onClick={() => setShowCreateProject(false)}>Terminate Op</button>
+                          <button className="flex-1 py-5 bg-white/5 text-slate-500 rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 hover:text-white transition-all" onClick={() => setShowCreateProject(false)}>{t('common.cancel')}</button>
                           <button className="flex-[2] py-5 bg-green-600 text-black rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-green-400 transition-all shadow-3xl shadow-green-500/20 disabled:opacity-50" onClick={createProject} disabled={loading}>
-                            {loading ? 'DEPLOYING...' : 'INITIATE DEPLOYMENT'}
+                            {loading ? t('common.loading') : t('admin.initiate_project')}
                           </button>
                         </div>
                       </div>
@@ -800,7 +802,7 @@ export default function AdminPage() {
             {tab === 'files' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-white tracking-tight">Encrypted Filesystem</h3>
+                  <h3 className="text-2xl font-black text-white tracking-tight">{t('admin.filesystem')}</h3>
                   <div className="px-4 py-2 rounded-full bg-green-500/5 border border-green-500/20 text-[9px] font-black text-green-500/60 uppercase tracking-[0.3em]">
                     {files.length} Secure Fragments
                   </div>
@@ -822,7 +824,7 @@ export default function AdminPage() {
                         onClick={() => downloadFile(file)}
                         className="flex items-center gap-3 px-6 py-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-green-600 hover:text-black transition-all"
                       >
-                        <Download size={14} /> DECRYPT
+                        <Download size={14} /> {t('admin.download')}
                       </button>
                     </div>
                   ))}

@@ -126,7 +126,7 @@ export default function ProjectsPage() {
                 <div className="relative max-w-7xl mx-auto px-5 lg:px-8 text-center animate-fade-in">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-[0.2em] mb-8">
                         <Target size={13} />
-                        Available Missions
+                        {t('projects.available_missions')}
                     </div>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 mb-5 tracking-tight leading-tight">
                         {t('projects.title')}{' '}
@@ -231,7 +231,7 @@ export default function ProjectsPage() {
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Deadline</div>
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('projects.deadline')}</div>
                                             <div className="flex items-center gap-1.5 text-slate-800 font-bold text-xs">
                                                 <Calendar size={12} className="text-emerald-500 shrink-0" />
                                                 {project.deadline || new Date(project.createdAt).toLocaleDateString()}
@@ -287,7 +287,7 @@ export default function ProjectsPage() {
                             <Leaf size={36} className="text-emerald-400" />
                         </div>
                         <h2 className="text-2xl font-black text-slate-900 mb-3">{t('projects.empty_state')}</h2>
-                        <p className="text-slate-400 font-medium">Daha fərqli axtarış meyarları sınaqdan keçirin</p>
+                        <p className="text-slate-400 font-medium">{t('projects.empty_state_subtitle')}</p>
                     </div>
                 )}
             </div>
@@ -325,7 +325,7 @@ export default function ProjectsPage() {
                                     <div className="flex flex-wrap items-center gap-2 mb-2">
                                         <CategoryBadge category={selectedProject.category} t={t} />
                                         <div className="flex items-center gap-2 bg-white/10 border border-white/10 px-2.5 py-1 rounded-full backdrop-blur-xl">
-                                            <span className="text-[9px] text-white/50 font-black uppercase tracking-widest">Level</span>
+                                            <span className="text-[9px] text-white/50 font-black uppercase tracking-widest">{t('projects.modal_level')}</span>
                                             <ComplexityDots level={selectedProject.complexityLevel} />
                                         </div>
                                     </div>
@@ -346,7 +346,7 @@ export default function ProjectsPage() {
                                         <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 flex-shrink-0">
                                             <FileText size={15} />
                                         </div>
-                                        <h3 className="text-base font-extrabold text-slate-900">Missiya Haqqında</h3>
+                                        <h3 className="text-base font-extrabold text-slate-900">{t('projects.about_mission')}</h3>
                                     </div>
                                     <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium whitespace-pre-line">
                                         {(locale === 'az' && selectedProject.descriptionAz) ? selectedProject.descriptionAz : selectedProject.description}
@@ -395,7 +395,7 @@ export default function ProjectsPage() {
                                     <div className="flex flex-wrap gap-4">
                                         {/* Location */}
                                         <div className="flex-1 min-w-[140px]">
-                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Location</div>
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{t('projects.modal_location')}</div>
                                             <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-100">
                                                 <MapPin size={14} className="text-emerald-500 flex-shrink-0" />
                                                 <span className="font-bold text-slate-800 text-xs truncate">
@@ -405,7 +405,7 @@ export default function ProjectsPage() {
                                         </div>
                                         {/* Skills */}
                                         <div className="flex-1 min-w-[140px]">
-                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Required Skills</div>
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{t('projects.modal_skills')}</div>
                                             <div className="flex flex-wrap gap-1">
                                                 {selectedProject.requiredSkills.map(skill => (
                                                     <span key={skill} className="px-2 py-1 bg-white text-emerald-600 font-bold rounded-lg border border-emerald-100 text-[9px] uppercase tracking-wide">
@@ -438,7 +438,7 @@ export default function ProjectsPage() {
                                     <Loader2 size={20} className="animate-spin" />
                                 ) : (
                                     <>
-                                        <span>Join Mission</span>
+                                        <span>{t('projects.join_mission')}</span>
                                         <ArrowRight size={18} />
                                     </>
                                 )}

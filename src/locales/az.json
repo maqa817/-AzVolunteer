@@ -16,9 +16,12 @@
     "subtitle": "5,000+ könüllü ilə ölkəmizin inkişafına töhfə ver. STEM sahələrində peşəkarlar üçün xüsusi texniki layihələr.",
     "cta_primary": "İndi Qeydiyyatdan Keç",
     "cta_secondary": "Layihələri Kəşf Et",
-    "stat_volunteers": "Kəşfiyyatçılar",
+    "stat_volunteers": "Könüllülər",
     "stat_projects": "Aktiv Missiyalar",
-    "stat_cities": "Bazalar"
+    "stat_cities": "Şəhərlər",
+    "social_proof": "5,000+ könüllü platformaya güvənir",
+    "stat_volunteers_small": "Aktiv könüllü",
+    "stat_projects_small": "Aktiv layihə"
   },
   "theme": {
     "ecosystem": "Təbiətdən İlhamlanan Ekosistem",
@@ -34,7 +37,8 @@
   },
   "auth": {
     "login_title": "Hesabınıza daxil olun",
-    "register_title": "Könüllü qeydiyyatı",
+    "register_title": "Könüllü Ol",
+    "register_subtitle": "AzVolunteer platformasına qoşulmaq üçün formu doldurun",
     "email": "E-poçt ünvanı",
     "password": "Şifrə",
     "first_name": "Ad",
@@ -44,8 +48,6 @@
     "gender": "Cins",
     "male": "Kişi",
     "female": "Qadın",
-    "fin_code": "FİN Kod",
-    "id_number": "Şəxsiyyət vəsiqəsi nömrəsi",
     "city": "Şəhər",
     "address": "Ünvan",
     "education": "Təhsil səviyyəsi",
@@ -74,11 +76,24 @@
     "step_profile": "Profil",
     "step_technical": "Texniki",
     "account_data_title": "Hesab Məlumatları",
+    "personal_info_desc": "Şəxsi məlumatlarınızı daxil edin",
+    "volunteer_profile_desc": "İxtisas və təcrübə məlumatları",
+    "pass_hint": "Minimum 8 simvol, rəqəm və böyük hərflər daxil edin",
+    "motivation_label": "Motivasiya Məktubu",
+    "motivation_placeholder_full": "Könüllü olmaq motivasiyanız haqqında qısa məlumat verin...",
+    "interests_label": "Könüllülük Maraq Sahələri",
+    "other_field_label": "Digər ixtisas adını daxil edin",
+    "other_field_placeholder_full": "İxtisas adını yazın...",
+    "register_success": "Qeydiyyat tamamlandı! Xoş gəldiniz.",
+    "register_fail": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin.",
+    "secure_protocol": "Təhlükəsiz Protokol",
+    "ssl_verified": "SSL Təsdiqli",
     "volunteer_profile_title": "Könüllü Profili",
     "technical_ready_title": "Hazırsınız!",
     "technical_ready_desc": "Kimya mühəndisliyi profiliniz tələb olunmur. Qeydiyyatı tamamlayın.",
     "select_default": "Seçin",
     "other_option": "Digər",
+    "back_home": "Ana Səhifəyə qayıt",
     "validation": {
       "fill_all": "Bütün məcburi sahələri doldurun",
       "fill_profile": "Lütfən, profil məlumatlarını tam doldurun",
@@ -126,16 +141,24 @@
     },
     "projects": {
       "apply_btn": "Müraciət et",
-      "applying_btn": "Göndərilir...",
-      "applied_btn": "Müraciət edilib"
-    }
+      "applying_btn": "Müraciət edilir...",
+      "applied_btn": "Müraciət uğurludur",
+      "join_project": "Layihəyə Qoşul"
+    },
+    "verification_in_progress": "Yoxlama davam edir",
+    "tech_stem_rank": "Texniki STEM dərəcəsi",
+    "no_activity": "Hələ heç bir fəaliyyət yoxdur",
+    "project_reference": "Layihə nömrəsi",
+    "complete_for_legacy": "Sertifikat qazanmaq üçün layihələri tamamlayın",
+    "download_pdf": "PDF Yüklə",
+    "issued": "Verilib"
   },
   "admin": {
     "title": "Admin Paneli",
     "users": "İstifadəçilər",
     "projects": "Layihələr",
     "applications": "Müraciətlər",
-    "files": "Qeydiyyat Faylları",
+    "files": "Fayllar",
     "stats": "Statistika",
     "approve": "Təsdiqlə",
     "reject": "Rədd et",
@@ -144,7 +167,22 @@
     "total_volunteers": "Ümumi Könüllülər",
     "pending_review": "Baxış gözləyir",
     "approved_volunteers": "Təsdiqlənmiş",
-    "active_projects": "Aktiv Layihələr"
+    "active_projects": "Aktiv Layihələr",
+    "app_submissions": "Müraciət Sayı",
+    "system_files": "Sistem Faylları",
+    "system_growth": "Sistem Artımı",
+    "view_profile": "Profilə Bax",
+    "delete_user": "İstifadəçini Sil",
+    "user_status_updated": "İstifadəçi statusu yeniləndi",
+    "app_status_updated": "Müraciət statusu yeniləndi",
+    "project_created": "Layihə yaradıldı!",
+    "project_deleted": "Layihə silindi",
+    "load_error": "Məlumat yüklənə bilmədi",
+    "confirm_delete": "Bu elementi silmək istədiyinizdən əminsiniz?",
+    "deployment_config": "Layihə Konfiqurasiyası",
+    "initiate_project": "Layihəni Başlat",
+    "active_deployments": "Aktiv Layihələr",
+    "filesystem": "Fayl Sistemi"
   },
   "common": {
     "loading": "Yüklənir...",
@@ -163,8 +201,35 @@
     "actions": "Əməliyyatlar",
     "name": "Ad",
     "email": "E-poçt",
-    "phone": "Telefon",
-    "date": "Tarix"
+    "date": "Tarix",
+    "mission": "Missiya",
+    "language": "Dil"
+  },
+  "how_it_works": {
+    "badge": "Necə işləyir",
+    "title": "Sadə, Sürətli, ",
+    "titleHighlight": "Effektiv",
+    "subtitle": "4 addımda könüllü kimi fəaliyyətə başla.",
+    "step1_title": "Qeydiyyatdan keç",
+    "step1_desc": "Qısa anket doldurun, bacarıq və maraqlarınızı bildirin.",
+    "step2_title": "Layihə seç",
+    "step2_desc": "Sizə uyğun onlarla aktiv layihəni araşdırın.",
+    "step3_title": "Müraciət et",
+    "step3_desc": "Bir klik ilə müraciət edin, cavabı gözləyin.",
+    "step4_title": "Fərq yarat",
+    "step4_desc": "Cəmiyyətə real töhfə verin, sertifikat qazanın."
+  },
+  "mission_section": {
+    "badge": "Missiyamız",
+    "title": "Azərbaycanın ",
+    "titleHighlight": "STEM gücü",
+    "titleSuffix": " ilə gələcəyini quran gənclər",
+    "desc": "AzVolunteer, elm, texnologiya, mühəndislik və riyaziyyat sahəsindəki könüllüləri ölkəmizin inkişafına töhfə verən layihələrlə birləşdirən milli platformadır.",
+    "item1": "Sertifikat və tövsiyyə məktubu qazanın",
+    "item2": "Peşəkar komanda ilə işləyin",
+    "item3": "Real dünya problemlərini həll edin",
+    "item4": "CV-nizi zənginləşdirin",
+    "cta": "İndi qoşul"
   },
   "features": {
     "title": "Platforma",
@@ -178,6 +243,20 @@
     "national_desc": "Bütün Azərbaycan şəhərlərini əhatə edən milli könüllülük şəbəkəsi.",
     "management_title": "Layihə İdarəetməsi",
     "management_desc": "Admin paneli ilə layihə yarat, könüllülər təyin et, müraciətlərə bax."
+  },
+  "testimonials_section": {
+    "badge": "Könüllülərimiz deyir",
+    "title": "Real ",
+    "titleHighlight": "Təcrübələr",
+    "user1_name": "Aynur Hüseynova",
+    "user1_role": "Kimya Mühəndisi",
+    "user1_text": "AzVolunteer sayəsində öz peşəmi cəmiyyətin xeyrinə istifadə edə bildim. Platforma həm peşəkar, həm də ürəkaçan.",
+    "user2_name": "Tural Əliyev",
+    "user2_role": "Proqram Mühəndisi",
+    "user2_text": "Qeydiyyat prosesi çox sadədir. Layihələr ciddi və məzmunludur. Könüllü kimi özümü həqiqətən dəyərli hiss edirəm.",
+    "user3_name": "Leyla Mustafayeva",
+    "user3_role": "Ətraf Mühit Mütəxəssisi",
+    "user3_text": "12+ şəhərdə aktiv layihələr var. Bu genişlik platformanın ciddiliyini göstərir. Tövsiyyə edirəm!"
   },
   "cta_banner": {
     "title": "Könüllü olmağa hazırsan?",
@@ -214,11 +293,23 @@
     },
     "login_to_see_more": "Missiyalara qoşulmaq üçün daxil olun",
     "login_to_see_more_desc": "Bütün aktiv layihələrə müraciət etmək və texniki imkanlardan yararlanmaq üçün hesabınıza daxil olun və ya qeydiyyatdan keçin.",
-    "sign_in_cta": "Daxil ol",
-    "register_cta": "Qeydiyyat"
+    "register_cta": "Qeydiyyat",
+    "available_missions": "Aktiv Missiyalar",
+    "deadline": "Son tarix",
+    "modal_level": "Səviyyə",
+    "about_mission": "Missiya Haqqında",
+    "modal_location": "Məkan",
+    "modal_skills": "Tələb olunan bacarıqlar",
+    "join_mission": "Missiyaya Qoşul",
+    "empty_state_subtitle": "Daha fərqli axtarış meyarları sınaqdan keçirin"
   },
-
   "footer": {
+    "desc": "Azərbaycanın milli könüllülük və texniki inkişaf platforması. Birlikdə daha güclüyük.",
+    "platform": "Platforma",
+    "social": "Sosial",
+    "terms": "Şərtlər",
+    "privacy": "Məxfilik",
+    "about": "Haqqımızda",
     "copyright": "© 2024 AzVolunteer. Azərbaycan Milli Könüllülük Platforması."
   }
 }

@@ -43,7 +43,7 @@ export default function LoginPage() {
         {/* Back navigation */}
         <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 transition-colors font-bold text-xs uppercase tracking-widest mb-12 group">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Ana Səhifəyə qayıt
+          {t('auth.back_home')}
         </Link>
 
         {/* Logo & Header */}
@@ -129,11 +129,11 @@ export default function LoginPage() {
         {/* Trust Indicators */}
         <div className="mt-12 flex items-center justify-center gap-8 opacity-40">
            <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-slate-400">
-            <ShieldCheck size={14} className="text-emerald-500" /> Secure Protocol
+            <ShieldCheck size={14} className="text-emerald-500" /> {t('auth.secure_protocol')}
           </div>
           <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
           <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-slate-400">
-            <Sparkles size={14} className="text-emerald-500" /> SSL Verified
+            <Sparkles size={14} className="text-emerald-500" /> {t('auth.ssl_verified')}
           </div>
         </div>
       </div>
