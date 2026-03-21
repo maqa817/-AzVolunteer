@@ -4,6 +4,16 @@ const nextConfig = {
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
+    ],
   },
   compress: true,
   poweredByHeader: false,
@@ -14,7 +24,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: '/api', // This points to /api/index.js or /api/route.js
+        destination: '/api',
       },
     ];
   },
