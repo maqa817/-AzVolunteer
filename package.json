@@ -9,8 +9,10 @@
     "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "cd backend && npx prisma generate"
   },
+
   "dependencies": {
     "next": "14.2.3",
     "react": "^18",

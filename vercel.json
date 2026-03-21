@@ -1,4 +1,10 @@
 {
   "version": 2,
-  "name": "azvolunteer-frontend"
+  "name": "azvolunteer-frontend",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
+  ]
 }
