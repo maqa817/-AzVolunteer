@@ -222,7 +222,7 @@ export default function ProjectsPage() {
                     </div>
                 ) : projects.length > 0 ? (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {(user ? projects : projects.slice(0, 6)).map((project) => (
+                        {projects.map((project) => (
                             <div key={project.id} className="group card !p-0 flex flex-col h-full bg-[#132b1a] hover:bg-[#1a3d22] transition-colors duration-500 border-white/5 shadow-2xl overflow-hidden shadow-black/40">
                                 {/* Card Header Gradient */}
                                 <div className="h-3 bg-gradient-to-r from-green-600 via-lime-500 to-emerald-600 opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -285,8 +285,9 @@ export default function ProjectsPage() {
                             </div>
                         ))}
 
-                        {/* Login to see more CTA */}
-                        {!user && projects.length > 6 && (
+                        {/* Sign In Reminder CTA */}
+                        {!user && (
+
                             <div className="group card flex flex-col items-center justify-center text-center p-12 bg-green-950/20 border-2 border-dashed border-green-500/20 hover:border-green-500/40 transition-all rounded-[32px] relative overflow-hidden h-full">
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
                                 <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500 ring-4 ring-green-500/5">
