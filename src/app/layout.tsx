@@ -1,27 +1,21 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, DM_Sans, Space_Mono } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '../lib/auth-context';
 import { Toaster } from 'react-hot-toast';
 
-const playfair = Playfair_Display({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  variable: '--font-inter',
   display: 'swap',
 });
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  variable: '--font-space-mono',
-  weight: ['400', '700'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'AzVolunteer — Azərbaycan Milli Könüllülük Platforması',
@@ -38,21 +32,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="az" className={`${playfair.variable} ${dmSans.variable} ${spaceMono.variable}`}>
-      <body className="antialiased selection:bg-green-500/30">
-        <div className="noise-overlay" />
+    <html lang="az" className={`${jakarta.variable} ${inter.variable}`}>
+      <body className="antialiased selection:bg-green-500/20 text-slate-800 bg-slate-50">
         <AuthProvider>
           {children}
           <Toaster
             position="top-right"
             toastOptions={{
               style: {
-                background: '#0f2318',
-                color: '#e8f5e9',
-                border: '1px solid rgba(76, 175, 80, 0.2)',
-                borderRadius: '16px',
+                background: '#ffffff',
+                color: '#1e293b',
+                border: '1px solid rgba(0, 0, 0, 0.05)',
+                borderRadius: '24px',
+                boxShadow: '0 10px 40px -10px rgba(0,0,0,0.1)',
+                padding: '16px 24px',
+                fontSize: '14px',
+                fontWeight: '600',
               },
-              success: { iconTheme: { primary: '#4caf50', secondary: '#fff' } },
+              success: { iconTheme: { primary: '#10b981', secondary: '#fff' } },
               error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
             }}
           />
@@ -61,3 +58,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+

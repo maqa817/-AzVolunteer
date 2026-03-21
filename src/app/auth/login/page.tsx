@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, LogIn, Leaf, Sparkles, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Leaf, Sparkles, ShieldCheck, ArrowLeft, Loader2 } from 'lucide-react';
 import { useAuth } from '../../../lib/auth-context';
 import { useI18n } from '../../../hooks/useI18n';
 
@@ -22,7 +22,6 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       toast.success(t('auth.welcome_msg'));
-      // Use window.location.href to force a full page refresh/state reset as requested by user
       window.location.href = user.role === 'admin' ? '/admin' : '/dashboard';
     } catch (err: unknown) {
       const msg =
@@ -35,32 +34,35 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1a0f] flex items-center justify-center px-4 py-20 relative overflow-hidden">
-      {/* Decorative Forest Glow */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-green-800/10 blur-[130px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-800/10 blur-[130px] rounded-full animate-pulse delay-700" />
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6 py-20 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-emerald-100/30 blur-[130px] rounded-full" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/20 blur-[130px] rounded-full" />
 
-      <div className="w-full max-w-md relative z-10">
-        {/* Logo */}
+      <div className="w-full max-w-md relative z-10 animate-fade-in">
+        {/* Back navigation */}
+        <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 transition-colors font-bold text-xs uppercase tracking-widest mb-12 group">
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          Ana Səhifəyə qayıt
+        </Link>
+
+        {/* Logo & Header */}
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-8 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-600 to-lime-500 flex items-center justify-center text-white shadow-2xl shadow-green-500/20 group-hover:rotate-12 transition-transform duration-500">
-              <Leaf size={24} className="fill-white/10" />
-            </div>
-            <span className="font-display font-black text-2xl text-white tracking-tighter">
-              Az<span className="text-green-500">Volunteer</span>
-            </span>
-          </Link>
-          <h1 className="text-3xl font-black text-white mb-2 tracking-tight">{t('auth.login_title')}</h1>
-          <p className="text-slate-500 font-medium italic text-sm">
+          <div className="w-16 h-16 rounded-3xl bg-emerald-600 flex items-center justify-center text-white shadow-2xl shadow-emerald-500/30 mx-auto mb-8">
+            <Leaf size={32} />
+          </div>
+          <h1 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-[-0.02em]">
+            {t('auth.login_title')}
+          </h1>
+          <p className="text-slate-500 font-medium text-lg max-w-xs mx-auto">
             {t('auth.login_subtitle')}
           </p>
         </div>
 
-        <div className="card p-8 md:p-10 bg-emerald-950/20 backdrop-blur-3xl border-white/5 rounded-[40px] shadow-3xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-green-500/60 mb-2 ml-4">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">
                 {t('auth.email')}
               </label>
               <input
@@ -69,12 +71,12 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@example.com"
                 required
-                className="input-field h-14 !rounded-2xl !bg-black/20 !border-white/5 px-6 focus:!bg-black/40 transition-all font-medium text-white"
+                className="input-field h-16 !shadow-sm"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-green-500/60 mb-2 ml-4">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">
                 {t('auth.password')}
               </label>
               <div className="relative group">
@@ -84,14 +86,14 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="input-field h-14 !rounded-2xl !bg-black/20 !border-white/5 px-6 pr-14 focus:!bg-black/40 transition-all font-medium text-white"
+                  className="input-field h-16 !shadow-sm pr-16"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-green-400 transition-colors p-2"
+                  className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-emerald-500 transition-colors p-2"
                 >
-                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
@@ -99,54 +101,42 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full h-14 !rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-[0.2em] text-xs shadow-3xl shadow-green-500/10 group overflow-hidden relative"
+              className="btn-primary w-full h-16 !rounded-3xl shadow-xl shadow-emerald-500/20"
             >
-              <span className="relative z-10 flex items-center gap-3">
+              <span className="flex items-center gap-3">
                 {loading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <Loader2 size={24} className="animate-spin" />
                 ) : (
                   <>
-                    <LogIn size={18} className="group-hover:translate-x-1 transition-transform" />
-                    {t('auth.submit_login')}
+                    <LogIn size={20} />
+                    <span className="uppercase tracking-widest text-[11px] font-black">{t('auth.submit_login')}</span>
                   </>
                 )}
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
             </button>
           </form>
 
-          <p className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mt-8">
-            {t('auth.no_account')}{' '}
-            <Link href="/auth/register" className="text-green-500 hover:text-lime-400 transition-colors underline-offset-4 hover:underline">
-              {t('nav.register')}
-            </Link>
-          </p>
+          <footer className="mt-10 pt-8 border-t border-slate-50 text-center">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              {t('auth.no_account')}{' '}
+              <Link href="/auth/register" className="text-emerald-600 hover:text-emerald-500 transition-colors underline decoration-2 underline-offset-8">
+                {t('nav.register')}
+              </Link>
+            </p>
+          </footer>
         </div>
 
-        {/* Security Feature Footer */}
-        <div className="mt-10 flex items-center justify-center gap-6 opacity-30">
-          <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-500">
-            <ShieldCheck size={12} /> Secure Auth
+        {/* Trust Indicators */}
+        <div className="mt-12 flex items-center justify-center gap-8 opacity-40">
+           <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-slate-400">
+            <ShieldCheck size={14} className="text-emerald-500" /> Secure Protocol
           </div>
-          <div className="w-1 h-1 rounded-full bg-slate-700" />
-          <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-500">
-            <Sparkles size={12} /> Encrypted Session
+          <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-slate-400">
+            <Sparkles size={14} className="text-emerald-500" /> SSL Verified
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes shimmer {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(100%); }
-        }
-        .animate-shimmer {
-          animation: shimmer 1.5s infinite;
-        }
-        .shadow-3xl {
-          box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.5);
-        }
-      `}</style>
     </div>
   );
 }

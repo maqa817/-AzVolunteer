@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Search, Filter, ArrowRight, FolderOpen, Clock, Tag, ChevronRight, MapPin, XCircle, FileText, Award, CheckCircle, Leaf, Monitor, GraduationCap, Handshake, Sparkles, Loader2 } from 'lucide-react';
+import { Search, Filter, ArrowRight, FolderOpen, Clock, Tag, ChevronRight, MapPin, XCircle, FileText, Award, CheckCircle, Leaf, Monitor, GraduationCap, Handshake, Sparkles, Loader2, Calendar, Target, ShieldCheck } from 'lucide-react';
 import { projectsApi, applicationsApi } from '../../lib/api';
 import Navbar from '../../components/layout/Navbar';
 import { useAuth } from '../../lib/auth-context';
 import { useI18n } from '../../hooks/useI18n';
+import Footer from '../../components/layout/Footer';
+
 
 interface Project {
     id: string;
@@ -31,30 +33,26 @@ interface Project {
     spotsLeftAz?: string;
 }
 
-
-const CategoryIcon = ({ category }: { category: string }) => {
-    switch (category.toLowerCase()) {
-        case 'social': return <Handshake size={14} />;
-        case 'technical': return <Monitor size={14} />;
-        case 'educational': return <GraduationCap size={14} />;
-        case 'environmental': return <Leaf size={14} />;
-        default: return <Sparkles size={14} />;
-    }
-};
-
 const CategoryBadge = ({ category, t }: { category: string, t: any }) => {
-    const icons: Record<string, string> = {
-        social: '🤝',
-        technical: '💻',
-        educational: '📚',
-        environmental: '🌍',
+    const icons: Record<string, any> = {
+        social: <Handshake size={14} />,
+        technical: <Monitor size={14} />,
+        educational: <GraduationCap size={14} />,
+        environmental: <Leaf size={14} />,
+    };
+
+    const colors: Record<string, string> = {
+        social: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+        technical: 'bg-blue-50 text-blue-600 border-blue-100',
+        educational: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+        environmental: 'bg-teal-50 text-teal-600 border-teal-100',
     };
 
     const catKey = category.toLowerCase();
 
     return (
-        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-full border border-green-500/20">
-            <span>{icons[catKey] || '✨'}</span>
+        <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border ${colors[catKey] || 'bg-slate-50 text-slate-600 border-slate-100'}`}>
+            <span>{icons[catKey] || <Sparkles size={14} />}</span>
             {t(`projects.categories.${catKey}`) || category}
         </div>
     );
@@ -63,11 +61,11 @@ const CategoryBadge = ({ category, t }: { category: string, t: any }) => {
 const ComplexityDots = ({ level }: { level: string }) => {
     const count = level === 'low' ? 1 : level === 'medium' ? 2 : level === 'high' ? 3 : 4;
     return (
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
             {[...Array(4)].map((_, i) => (
                 <div
                     key={i}
-                    className={`w-1.5 h-1.5 rounded-full ${i < count ? 'bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.6)]' : 'bg-white/10'}`}
+                    className={`w-2 h-2 rounded-full transition-all duration-500 ${i < count ? 'bg-emerald-400' : 'bg-slate-200'}`}
                 />
             ))}
         </div>
@@ -127,51 +125,52 @@ export default function ProjectsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a1a0f]">
+        <div className="min-h-screen bg-slate-50 transition-colors duration-500">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="relative pt-40 pb-20 overflow-hidden">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl">
-                    <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-green-800/10 blur-[130px] rounded-full animate-pulse" />
-                    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-800/10 blur-[130px] rounded-full animate-pulse delay-700" />
-                </div>
-
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/5 border border-green-500/20 text-green-400 text-[10px] font-black uppercase tracking-[0.2em] mb-8 animate-fade-in backdrop-blur-md">
-                        <Leaf size={14} className="fill-green-400/20" />
-                        {t('hero.badge')}
+            {/* Header Section */}
+            <div className="relative pt-44 pb-32 overflow-hidden bg-white">
+                <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-50/30 blur-[100px] rounded-full translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-1/4 h-full bg-blue-50/20 blur-[80px] rounded-full -translate-x-1/2" />
+                
+                <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center animate-fade-in">
+                    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] font-black uppercase tracking-[0.25em] mb-10">
+                        <Target size={14} />
+                        Available Missions
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">
-                        {t('projects.title')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-lime-300">{t('features.titleHighlight')}</span>
+                    <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-[-0.03em] leading-tight">
+                        {t('projects.title')}{' '}
+                        <span className="text-emerald-500">
+                            {t('features.titleHighlight')}
+                        </span>
                     </h1>
-                    <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-medium italic opacity-80 leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-xl font-medium">
                         {t('projects.subtitle')}
                     </p>
                 </div>
             </div>
 
             {/* Filter & Search Bar */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 relative z-10">
-                <div className="card p-2 md:p-3 bg-emerald-950/40 backdrop-blur-2xl border-white/5 rounded-[24px]">
-                    <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-3">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-14 relative z-20">
+                <div className="bg-white p-3 rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100">
+                    <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-4">
                         <div className="relative flex-1 group">
-                            <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none transition-transform group-focus-within:scale-110">
-                                <Leaf className="text-green-500/60" size={18} />
+                            <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none opacity-40 group-focus-within:opacity-100 transition-opacity">
+                                <Search size={20} className="text-emerald-500" />
                             </div>
                             <input
                                 type="text"
                                 placeholder={t('projects.search_placeholder')}
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="input-field pl-14 h-14 !rounded-2xl border-white/5 bg-black/20 focus:bg-black/40 text-base"
+                                className="input-field pl-16 h-16 !rounded-3xl border-slate-100 hover:border-slate-200 transition-colors"
                             />
                         </div>
 
-                        <div className="flex flex-wrap md:flex-nowrap gap-3">
-                            <div className="relative inline-block min-w-[180px]">
+                        <div className="flex flex-wrap md:flex-nowrap gap-4">
+                            <div className="relative inline-block min-w-[200px]">
                                 <select
-                                    className="input-field h-14 !rounded-2xl border-white/5 bg-black/20 appearance-none text-sm font-bold tracking-wide pl-5 pr-10 cursor-pointer hover:bg-black/30 transition-colors"
+                                    className="input-field h-16 !rounded-3xl border-slate-100 pr-12 appearance-none cursor-pointer font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:20px_20px] bg-[right_1.5rem_center] bg-no-repeat"
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
                                 >
@@ -181,14 +180,11 @@ export default function ProjectsPage() {
                                     <option value="Educational">{t('projects.categories.educational')}</option>
                                     <option value="Environmental">{t('projects.categories.environmental')}</option>
                                 </select>
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
-                                    <Filter size={14} />
-                                </div>
                             </div>
 
-                            <div className="relative inline-block min-w-[180px]">
+                            <div className="relative inline-block min-w-[200px]">
                                 <select
-                                    className="input-field h-14 !rounded-2xl border-white/5 bg-black/20 appearance-none text-sm font-bold tracking-wide pl-5 pr-10 cursor-pointer hover:bg-black/30 transition-colors"
+                                    className="input-field h-16 !rounded-3xl border-slate-100 pr-12 appearance-none cursor-pointer font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:20px_20px] bg-[right_1.5rem_center] bg-no-repeat"
                                     value={complexity}
                                     onChange={(e) => setComplexity(e.target.value)}
                                 >
@@ -198,14 +194,11 @@ export default function ProjectsPage() {
                                     <option value="high">{t('projects.complexity.high')}</option>
                                     <option value="expert">{t('projects.complexity.expert')}</option>
                                 </select>
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
-                                    <Sparkles size={14} />
-                                </div>
                             </div>
 
-                            <button type="submit" className="btn-primary h-14 px-10 group shadow-green-500/10">
-                                <Search size={18} className="group-hover:scale-110 transition-transform" />
-                                <span className="uppercase tracking-[0.2em] text-xs font-black">{t('common.search')}</span>
+                            <button type="submit" className="btn-primary !h-16 px-12 !rounded-3xl shadow-emerald-500/10 active:scale-95 transition-all">
+                                <Search size={22} className="stroke-[3]" />
+                                <span className="uppercase tracking-widest text-[11px] font-black">{t('common.search')}</span>
                             </button>
                         </div>
                     </form>
@@ -213,115 +206,118 @@ export default function ProjectsPage() {
             </div>
 
             {/* Projects Grid */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-40">
+            <div className="section-container pb-40">
                 {loading ? (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="card h-80 animate-pulse bg-emerald-950/20 border-white/5" />
+                            <div key={i} className="card h-[450px] animate-pulse bg-white border-slate-100 rounded-[2.5rem]" />
                         ))}
                     </div>
                 ) : projects.length > 0 ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
                         {projects.map((project) => (
-                            <div key={project.id} className="group card !p-0 flex flex-col h-full bg-[#132b1a] hover:bg-[#1a3d22] transition-colors duration-500 border-white/5 shadow-2xl overflow-hidden shadow-black/40">
-                                {/* Card Header Gradient */}
-                                <div className="h-3 bg-gradient-to-r from-green-600 via-lime-500 to-emerald-600 opacity-60 group-hover:opacity-100 transition-opacity" />
-
-                                <div className="p-8 flex flex-col h-full">
+                            <div key={project.id} className="group card !p-0 flex flex-col h-full bg-white hover:border-emerald-200 transition-all duration-500 rounded-[2.5rem] overflow-hidden border-slate-100">
+                                {/* Card Body */}
+                                <div className="p-10 flex flex-col h-full">
                                     <div className="flex justify-between items-start mb-8">
                                         <CategoryBadge category={project.category} t={t} />
                                         <ComplexityDots level={project.complexityLevel} />
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors leading-tight">
+                                    <h3 className="text-2xl font-extrabold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors leading-tight">
                                         {(locale === 'az' && project.titleAz) ? project.titleAz : project.title}
                                     </h3>
+
                                     {project.spotsLeft && (
-                                        <div className="mb-4 text-[10px] font-black uppercase text-amber-400 flex items-center gap-1.5 animate-pulse">
-                                            <Sparkles size={12} />
+                                        <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-xl border border-amber-100/50 w-fit">
+                                            <Sparkles size={14} className="animate-pulse" />
                                             {(locale === 'az' && project.spotsLeftAz) ? project.spotsLeftAz : project.spotsLeft}
                                         </div>
                                     )}
 
-
-                                    <p className="text-slate-400 text-sm font-medium italic opacity-70 line-clamp-3 mb-8 flex-grow leading-relaxed">
+                                    <p className="text-slate-500 text-sm font-medium line-clamp-3 mb-10 flex-grow leading-relaxed">
                                         {(locale === 'az' && project.descriptionAz) ? project.descriptionAz : project.description}
                                     </p>
 
-                                    <div className="flex flex-wrap gap-4 text-xs font-bold text-slate-500 mb-8 pb-8 border-b border-white/5">
-                                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 border border-white/5">
-                                            <MapPin size={14} className="text-green-500" />
-                                            {(locale === 'az' && project.locationAz) ? project.locationAz : project.location || 'Azerbaijan'}
+                                    {/* Project Meta */}
+                                    <div className="grid grid-cols-2 gap-4 mb-10 pt-8 border-t border-slate-50">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest uppercase">{t('projects.location')}</span>
+                                            <div className="flex items-center gap-2 text-slate-800 font-bold text-xs truncate">
+                                                <MapPin size={14} className="text-emerald-500 shrink-0" />
+                                                {(locale === 'az' && project.locationAz) ? project.locationAz : project.location || 'Azerbaijan'}
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 border border-white/5">
-                                            <Clock size={14} className="text-green-500" />
-                                            {project.deadline || new Date(project.createdAt).toLocaleDateString()}
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest uppercase">Deadline</span>
+                                            <div className="flex items-center gap-2 text-slate-800 font-bold text-xs">
+                                                <Calendar size={14} className="text-emerald-500 shrink-0" />
+                                                {project.deadline || new Date(project.createdAt).toLocaleDateString()}
+                                            </div>
                                         </div>
-
                                     </div>
 
-                                    <div className="flex items-center justify-between mt-auto">
+                                    <div className="flex items-center justify-between gap-4">
                                         <button
                                             onClick={() => setSelectedProject(project)}
-                                            className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-colors flex items-center gap-2 group/btn"
+                                            className="text-[12px] font-bold text-slate-400 hover:text-emerald-600 transition-colors flex items-center gap-2 uppercase tracking-widest group/btn"
                                         >
-                                            <FileText size={14} className="text-green-500 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                                             {t('projects.details')}
+                                            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                                         </button>
 
                                         <button
                                             onClick={() => setSelectedProject(project)}
-                                            className="relative overflow-hidden btn-primary !text-[10px] !px-6 !py-2.5 uppercase tracking-widest group/apply"
+                                            className="btn-primary !px-6 !py-3.5 !rounded-2xl !text-[10px] tracking-widest uppercase"
                                         >
-                                            <span className="relative z-10 flex items-center gap-2">
-                                                {t('projects.apply_button')}
-                                                <ChevronRight size={14} className="group-hover/apply:translate-x-1 transition-transform" />
-                                            </span>
-                                            {/* Shimmer effect */}
-                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/apply:animate-shimmer" />
+                                            {t('projects.apply_button')}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         ))}
 
-                        {/* Sign In Reminder CTA */}
+                        {/* Sign In Reminder Reminder CTA */}
                         {!user && (
-
-                            <div className="group card flex flex-col items-center justify-center text-center p-12 bg-green-950/20 border-2 border-dashed border-green-500/20 hover:border-green-500/40 transition-all rounded-[32px] relative overflow-hidden h-full">
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
-                                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500 ring-4 ring-green-500/5">
-                                    <Sparkles size={28} className="text-green-500" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-white mb-4">{t('projects.login_to_see_more')}</h3>
-                                <p className="text-slate-400 text-sm mb-10 max-w-[240px] italic font-medium opacity-80">{t('projects.login_to_see_more_desc')}</p>
-                                <div className="flex flex-col gap-4 w-full px-4">
-                                    <Link
-                                        href="/auth/login"
-                                        className="btn-primary w-full py-4 uppercase text-[10px] font-black tracking-[0.2em] shadow-xl shadow-green-900/20"
-                                    >
-                                        {t('projects.sign_in_cta')}
-                                    </Link>
-                                    <Link
-                                        href="/auth/register"
-                                        className="text-slate-400 hover:text-green-400 text-[10px] font-black uppercase tracking-[0.2em] transition-colors"
-                                    >
-                                        {t('projects.register_cta')}
-                                    </Link>
+                            <div className="group card flex flex-col items-center justify-center text-center p-12 bg-emerald-600 border-none rounded-[2.5rem] relative overflow-hidden h-full shadow-emerald-200">
+                                {/* Abstract background patterns */}
+                                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+                                     style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
+                                
+                                <div className="relative z-10">
+                                    <div className="w-20 h-20 rounded-3xl bg-white/20 flex items-center justify-center mb-8 mx-auto group-hover:scale-110 transition-transform duration-500 backdrop-blur-md ring-8 ring-white/5">
+                                        <ShieldCheck size={36} className="text-white" />
+                                    </div>
+                                    <h3 className="text-3xl font-black text-white mb-6 leading-[1.1]">{t('projects.login_to_see_more')}</h3>
+                                    <p className="text-emerald-50 text-base mb-10 font-medium opacity-90 leading-relaxed px-4">{t('projects.login_to_see_more_desc')}</p>
+                                    
+                                    <div className="flex flex-col gap-4 w-full px-6">
+                                        <Link
+                                            href="/auth/login"
+                                            className="bg-white text-emerald-600 px-8 py-5 rounded-[1.5rem] font-bold text-xs uppercase tracking-widest hover:bg-emerald-50 hover:-translate-y-1 transition-all shadow-xl shadow-emerald-900/10"
+                                        >
+                                            {t('projects.sign_in_cta')}
+                                        </Link>
+                                        <Link
+                                            href="/auth/register"
+                                            className="text-white/80 hover:text-white font-bold text-xs uppercase tracking-[0.2em] transition-colors"
+                                        >
+                                            {t('projects.register_cta')}
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         )}
-
                     </div>
                 ) : (
-                    <div className="text-center py-40">
-                        <div className="w-24 h-24 bg-emerald-950/40 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-white/5 shadow-2xl text-green-500/20">
-                            <Leaf size={48} />
+                    <div className="text-center py-40 animate-fade-in px-6">
+                        <div className="w-28 h-28 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 border border-emerald-100 shadow-xl shadow-emerald-100/50">
+                            <Leaf size={48} className="text-emerald-400" />
                         </div>
-                        <h2 className="text-2xl font-black text-white mb-3">
+                        <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">
                             {t('projects.empty_state')}
                         </h2>
-                        <p className="text-slate-500 font-medium italic">
+                        <p className="text-slate-500 text-lg font-medium italic max-w-sm mx-auto">
                             Daha fərqli axtarış meyarları sınaqdan keçirin
                         </p>
                     </div>
@@ -330,75 +326,69 @@ export default function ProjectsPage() {
 
             {/* Project Details Modal */}
             {selectedProject && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-[#0a1a0fb0] backdrop-blur-2xl animate-fade-in">
-                    <div className="bg-[#0f2318] border border-white/10 rounded-[40px] w-full max-w-4xl max-h-full overflow-y-auto shadow-[0_32px_120px_rgba(0,0,0,0.6)] relative animate-slide-up scrollbar-hide">
-                        {/* Modal Header */}
-                        <div className="h-64 md:h-80 relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-600/30 via-emerald-600/20 to-[#0f2318] z-0" />
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12 bg-slate-900/60 backdrop-blur-xl animate-fade-in">
+                    <div className="bg-white rounded-[3rem] w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-[0_40px_120px_-20px_rgba(0,0,0,0.3)] relative flex flex-col animate-slide-up">
+                        
+                        {/* Modal Hero */}
+                        <div className="relative h-64 md:h-80 w-full shrink-0 overflow-hidden bg-slate-900">
+                             {/* Mesh Gradient Background */}
+                            <div className="absolute inset-0 opacity-40">
+                                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500 blur-[80px] rounded-full animate-pulse" />
+                                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500 blur-[60px] rounded-full animate-pulse delay-700" />
+                            </div>
 
                             <button
                                 onClick={() => setSelectedProject(null)}
-                                className="absolute top-8 right-8 p-3 bg-black/40 text-white rounded-full hover:bg-black transition-all hover:scale-110 active:scale-90 z-50 backdrop-blur-xl border border-white/10"
+                                className="absolute top-8 right-8 p-3.5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all z-50 backdrop-blur-xl border border-white/10 hover:scale-105 active:scale-95"
                             >
                                 <XCircle size={24} />
                             </button>
 
-                            <div className="absolute inset-0 flex items-end p-10 md:p-16 z-10 bg-gradient-to-t from-[#0f2318] via-transparent to-transparent">
-                                <div>
+                            <div className="absolute inset-0 flex items-end p-12 md:p-16 z-10 bg-gradient-to-t from-slate-900 to-transparent">
+                                <div className="w-full">
                                     <div className="flex flex-wrap items-center gap-4 mb-6">
                                         <CategoryBadge category={selectedProject.category} t={t} />
-                                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Complexity:</span>
+                                        <div className="bg-white/10 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-xl flex items-center gap-3">
+                                            <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Level:</span>
                                             <ComplexityDots level={selectedProject.complexityLevel} />
                                         </div>
                                     </div>
-                                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none mb-4">
+                                    <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
                                         {(locale === 'az' && selectedProject.titleAz) ? selectedProject.titleAz : selectedProject.title}
                                     </h2>
-                                    <div className="flex items-center gap-6 text-slate-400 text-sm font-bold uppercase tracking-widest opacity-60">
-                                        <span className="flex items-center gap-2"><MapPin size={16} className="text-green-500" /> {(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}</span>
-                                        <span className="flex items-center gap-2"><Clock size={16} className="text-green-500" /> {selectedProject.deadline || new Date(selectedProject.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                    {selectedProject.spotsLeft && (
-                                        <div className="mt-4 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-xl inline-flex items-center gap-2 text-amber-400 text-xs font-black uppercase tracking-widest animate-pulse">
-                                            <Sparkles size={14} />
-                                            {(locale === 'az' && selectedProject.spotsLeftAz) ? selectedProject.spotsLeftAz : selectedProject.spotsLeft}
-                                        </div>
-                                    )}
-
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-10 md:p-16">
+                        {/* Modal Content */}
+                        <div className="flex-1 overflow-y-auto p-12 md:p-16 scrollbar-hide">
                             <div className="grid lg:grid-cols-3 gap-16">
                                 <div className="lg:col-span-2 space-y-16">
-                                    {/* Description */}
+                                    {/* Description Section */}
                                     <div>
-                                        <h3 className="text-white font-black text-xs uppercase tracking-[0.3em] mb-8 flex items-center gap-4 text-green-500">
-                                            <div className="w-10 h-10 rounded-2xl bg-green-500/10 flex items-center justify-center border border-green-500/20">
-                                                <FileText size={20} />
+                                        <div className="flex items-center gap-4 mb-8">
+                                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
+                                                <FileText size={22} />
                                             </div>
-                                            {t('dashboard.tabs.overview')}
-                                        </h3>
-                                        <p className="text-slate-300 leading-relaxed text-xl font-medium italic opacity-90 whitespace-pre-line">
+                                            <h3 className="text-slate-900 font-extrabold text-2xl tracking-tight">Missiya Haqqında</h3>
+                                        </div>
+                                        <p className="text-slate-600 leading-relaxed text-xl font-medium whitespace-pre-line">
                                             {(locale === 'az' && selectedProject.descriptionAz) ? selectedProject.descriptionAz : selectedProject.description}
                                         </p>
                                     </div>
 
-                                    {/* Benefits & Requirements */}
-                                    <div className="grid md:grid-cols-2 gap-10">
-                                        <div className="p-8 rounded-[32px] bg-green-500/5 border border-green-500/10 hover:bg-green-500/10 transition-colors group">
-                                            <h3 className="text-white font-black text-xs uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
-                                                <Award size={18} className="text-green-400 group-hover:scale-110 transition-transform" />
-                                                {t('projects.benefits')}
-                                            </h3>
+                                    {/* Benefits & Requirements Grids */}
+                                    <div className="grid md:grid-cols-2 gap-8">
+                                        <div className="p-10 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-50 hover:bg-emerald-50 transition-colors duration-500">
+                                            <div className="flex items-center gap-3 mb-8">
+                                                <Award size={20} className="text-emerald-500" />
+                                                <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.benefits')}</h4>
+                                            </div>
                                             <ul className="space-y-4">
                                                 {((locale === 'az' && selectedProject.benefitsAz) ? selectedProject.benefitsAz : selectedProject.benefits || '')
                                                     .split('\n').filter(Boolean).map((item, i) => (
-                                                        <li key={i} className="text-sm text-slate-400 font-bold flex gap-3 leading-relaxed">
-                                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-400 shrink-0 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
+                                                        <li key={i} className="text-sm text-slate-700 font-bold flex gap-3 leading-relaxed">
+                                                            <CheckCircle size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                                                             {item.trim()}
                                                         </li>
                                                     ))
@@ -406,16 +396,16 @@ export default function ProjectsPage() {
                                             </ul>
                                         </div>
 
-                                        <div className="p-8 rounded-[32px] bg-lime-500/5 border border-lime-500/10 hover:bg-lime-500/10 transition-colors group">
-                                            <h3 className="text-white font-black text-xs uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
-                                                <CheckCircle size={18} className="text-lime-400 group-hover:scale-110 transition-transform" />
-                                                {t('projects.requirements')}
-                                            </h3>
+                                        <div className="p-10 rounded-[2.5rem] bg-blue-50/50 border border-blue-50 hover:bg-blue-50 transition-colors duration-500">
+                                            <div className="flex items-center gap-3 mb-8">
+                                                < ShieldCheck size={20} className="text-blue-500" />
+                                                <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.requirements')}</h4>
+                                            </div>
                                             <ul className="space-y-4">
                                                 {((locale === 'az' && selectedProject.requirementsAz) ? selectedProject.requirementsAz : selectedProject.requirements || '')
                                                     .split('\n').filter(Boolean).map((item, i) => (
-                                                        <li key={i} className="text-sm text-slate-400 font-bold flex gap-3 leading-relaxed">
-                                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-lime-400 shrink-0 shadow-[0_0_8px_rgba(163,230,53,0.5)]" />
+                                                        <li key={i} className="text-sm text-slate-700 font-bold flex gap-3 leading-relaxed">
+                                                            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
                                                             {item.trim()}
                                                         </li>
                                                     ))
@@ -425,55 +415,52 @@ export default function ProjectsPage() {
                                     </div>
                                 </div>
 
-                                <div className="space-y-10">
-                                    <div className="card p-10 bg-black/20 border-white/5 rounded-[40px] sticky top-10 shadow-3xl overflow-hidden group/meta">
-                                        <div className="absolute -top-20 -right-20 w-40 h-40 bg-green-500/10 blur-[60px] rounded-full group-hover/meta:scale-150 transition-transform duration-700" />
-
-                                        <div className="space-y-10 relative z-10">
+                                {/* Sidebar Info Card */}
+                                <div className="space-y-8">
+                                    <div className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100">
+                                        <div className="space-y-10">
                                             <div>
-                                                <div className="text-[10px] uppercase font-black text-green-500 mb-4 tracking-[0.3em]">{t('projects.location')}</div>
-                                                <div className="text-white font-bold flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/5">
-                                                    <MapPin size={22} className="text-green-400" />
-                                                    {(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}
+                                                <div className="text-[10px] uppercase font-black text-slate-400 mb-4 tracking-[0.2em]">Location</div>
+                                                <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                                                    <MapPin size={22} className="text-emerald-500" />
+                                                    <span className="font-bold text-slate-800 text-sm truncate">{(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}</span>
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <div className="text-[10px] uppercase font-black text-green-500 mb-4 tracking-[0.3em]">{t('projects.skills')}</div>
-                                                <div className="flex flex-wrap gap-2 pt-1">
+                                                <div className="text-[10px] uppercase font-black text-slate-400 mb-4 tracking-[0.2em]">Required Skills</div>
+                                                <div className="flex flex-wrap gap-2">
                                                     {selectedProject.requiredSkills.map(skill => (
-                                                        <span key={skill} className="px-4 py-2 bg-emerald-950 text-green-300 font-black rounded-xl border border-green-500/10 text-[10px] uppercase tracking-widest">
+                                                        <span key={skill} className="px-4 py-2 bg-white text-emerald-600 font-bold rounded-xl border border-emerald-100 text-[10px] uppercase tracking-widest shadow-sm">
                                                             {skill}
                                                         </span>
                                                     ))}
-                                                    {selectedProject.requiredSkills.length === 0 && <span className="text-slate-600 text-xs italic font-bold">General Skills</span>}
                                                 </div>
                                             </div>
 
-                                            <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 mb-2">
-                                                <p className="text-[10px] text-amber-500/80 font-medium leading-relaxed italic">
+                                            <div className="pt-4 border-t border-slate-200">
+                                                <button
+                                                    onClick={() => handleApply(selectedProject.id)}
+                                                    disabled={!!applying}
+                                                    className="btn-primary w-full !py-5 !rounded-2xl !text-sm group/apply shadow-lg"
+                                                >
+                                                    {applying === selectedProject.id ? (
+                                                        <Loader2 size={18} className="animate-spin" />
+                                                    ) : (
+                                                        <>
+                                                            <span>Join Mission</span>
+                                                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                                <Sparkles size={16} className="text-amber-500 shrink-0 mt-0.5" />
+                                                <p className="text-[10px] text-amber-700 font-bold leading-relaxed">
                                                     {t('projects.eligibility_notice')}
                                                 </p>
                                             </div>
-
-                                            <button
-                                                onClick={() => handleApply(selectedProject.id)}
-                                                disabled={!!applying}
-                                                className="btn-primary w-full py-5 text-sm font-black uppercase tracking-[0.2em] shadow-3xl shadow-green-500/20 group/go flex items-center justify-center gap-3"
-                                            >
-                                                {applying === selectedProject.id ? (
-                                                    <Loader2 size={18} className="animate-spin" />
-                                                ) : (
-                                                    <>
-                                                        {t('dashboard.projects.apply_btn')}
-                                                        <ChevronRight size={18} className="group-hover/go:translate-x-2 transition-transform" />
-                                                    </>
-                                                )}
-                                            </button>
-
-                                            <p className="text-center text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-6">
-                                                Protect our future
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -483,15 +470,8 @@ export default function ProjectsPage() {
                 </div>
             )}
 
-            <style jsx global>{`
-                @keyframes shimmer {
-                    from { transform: translateX(-100%); }
-                    to { transform: translateX(100%); }
-                }
-                .animate-shimmer {
-                    animation: shimmer 1.5s infinite;
-                }
-            `}</style>
+            <Footer />
         </div>
     );
 }
+
