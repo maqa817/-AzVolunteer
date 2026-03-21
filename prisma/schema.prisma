@@ -91,7 +91,11 @@ model Project {
   locationAz                  String?
   requirements                String?
   requirementsAz              String?
+  deadline                    String?
+  spotsLeft                   String?
+  spotsLeftAz                 String?
   applications                Application[]
+
 
   @@map("projects")
 }

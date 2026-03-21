@@ -26,7 +26,11 @@ interface Project {
     complexityLevel: 'low' | 'medium' | 'high' | 'expert';
     isActive: boolean;
     createdAt: string;
+    deadline?: string;
+    spotsLeft?: string;
+    spotsLeftAz?: string;
 }
+
 
 const CategoryIcon = ({ category }: { category: string }) => {
     switch (category.toLowerCase()) {
@@ -229,9 +233,16 @@ export default function ProjectsPage() {
                                         <ComplexityDots level={project.complexityLevel} />
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors leading-tight">
+                                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors leading-tight">
                                         {(locale === 'az' && project.titleAz) ? project.titleAz : project.title}
                                     </h3>
+                                    {project.spotsLeft && (
+                                        <div className="mb-4 text-[10px] font-black uppercase text-amber-400 flex items-center gap-1.5 animate-pulse">
+                                            <Sparkles size={12} />
+                                            {(locale === 'az' && project.spotsLeftAz) ? project.spotsLeftAz : project.spotsLeft}
+                                        </div>
+                                    )}
+
 
                                     <p className="text-slate-400 text-sm font-medium italic opacity-70 line-clamp-3 mb-8 flex-grow leading-relaxed">
                                         {(locale === 'az' && project.descriptionAz) ? project.descriptionAz : project.description}
@@ -244,8 +255,9 @@ export default function ProjectsPage() {
                                         </div>
                                         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 border border-white/5">
                                             <Clock size={14} className="text-green-500" />
-                                            {new Date(project.createdAt).toLocaleDateString()}
+                                            {project.deadline || new Date(project.createdAt).toLocaleDateString()}
                                         </div>
+
                                     </div>
 
                                     <div className="flex items-center justify-between mt-auto">
@@ -318,8 +330,15 @@ export default function ProjectsPage() {
                                     </h2>
                                     <div className="flex items-center gap-6 text-slate-400 text-sm font-bold uppercase tracking-widest opacity-60">
                                         <span className="flex items-center gap-2"><MapPin size={16} className="text-green-500" /> {(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}</span>
-                                        <span className="flex items-center gap-2"><Clock size={16} className="text-green-500" /> {new Date(selectedProject.createdAt).toLocaleDateString()}</span>
+                                        <span className="flex items-center gap-2"><Clock size={16} className="text-green-500" /> {selectedProject.deadline || new Date(selectedProject.createdAt).toLocaleDateString()}</span>
                                     </div>
+                                    {selectedProject.spotsLeft && (
+                                        <div className="mt-4 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-xl inline-flex items-center gap-2 text-amber-400 text-xs font-black uppercase tracking-widest animate-pulse">
+                                            <Sparkles size={14} />
+                                            {(locale === 'az' && selectedProject.spotsLeftAz) ? selectedProject.spotsLeftAz : selectedProject.spotsLeft}
+                                        </div>
+                                    )}
+
                                 </div>
                             </div>
                         </div>

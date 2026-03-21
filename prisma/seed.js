@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+require('dotenv').config();
 
 const prisma = new PrismaClient();
 
@@ -44,7 +45,10 @@ async function main() {
       requirements: "16+ years old, physically active, willing to work outdoors",
       requirementsAz: "16+ yaş, fiziki aktivlik, açıq havada işləmə istəyi",
       requiredSkills: ["Physical strength", "Teamwork", "Passion for ecology"],
-      isActive: true
+      isActive: true,
+      deadline: "15.04.2026",
+      spotsLeft: "Only 5 spots left!",
+      spotsLeftAz: "Cəmi 5 yer qalıb!"
     },
     {
       title: "Old City Tourism Guide Volunteer",
@@ -60,7 +64,10 @@ async function main() {
       requirements: "Knowledge of Azerbaijani history, communication skills, B1+ English",
       requirementsAz: "Azərbaycan tarixi bilgisi, ünsiyyət bacarığı, B1+ ingilis dili",
       requiredSkills: ["Communication", "History knowledge", "Multilingualism"],
-      isActive: true
+      isActive: true,
+      deadline: "20.04.2026",
+      spotsLeft: "Limited availability",
+      spotsLeftAz: "Məhdud yerlər"
     },
     {
       title: "Digital Literacy for Elderly Citizens",
@@ -76,7 +83,10 @@ async function main() {
       requirements: "Computer skills, patience, ability to explain clearly",
       requirementsAz: "Kompüter bacarığı, səbir, izahetmə qabiliyyəti",
       requiredSkills: ["IT knowledge", "Teaching", "Empathy"],
-      isActive: true
+      isActive: true,
+      deadline: "12.04.2026",
+      spotsLeft: "7 slots remaining",
+      spotsLeftAz: "7 boş yer qalıb"
     },
     {
       title: "Clean the Caspian Shore",
@@ -92,7 +102,10 @@ async function main() {
       requirements: "14+ years old, physically active",
       requirementsAz: "14+ yaş, fiziki aktivlik",
       requiredSkills: ["Physical activity", "Ecological awareness", "Team spirit"],
-      isActive: true
+      isActive: true,
+      deadline: "18.04.2026",
+      spotsLeft: "Last 10 spots!",
+      spotsLeftAz: "Son 10 yer!"
     },
     {
       title: "Coding Classes at Children's Homes",
@@ -108,7 +121,10 @@ async function main() {
       requirements: "Programming knowledge (any language), willingness to work with children",
       requirementsAz: "Proqramlaşdırma biliyi (istənilən dil), uşaqlarla işləmə istəyi",
       requiredSkills: ["Programming", "Teaching", "Creativity"],
-      isActive: true
+      isActive: true,
+      deadline: "25.04.2026",
+      spotsLeft: "Only 3 teachers needed",
+      spotsLeftAz: "Cəmi 3 müəllim axtarılır"
     },
     {
       title: "Cultural Heritage — Photo Archive Project",
@@ -124,7 +140,10 @@ async function main() {
       requirements: "Camera or good camera phone, creativity",
       requirementsAz: "Fotoaparat və ya yaxşı kamera telefon, yaradıcılıq",
       requiredSkills: ["Photography", "Historical interest", "Digital editing"],
-      isActive: true
+      isActive: true,
+      deadline: "05.05.2026",
+      spotsLeft: "8 spaces left",
+      spotsLeftAz: "8 yer qalıb"
     },
     {
       title: "English Language Club with School Students",
@@ -140,7 +159,10 @@ async function main() {
       requirements: "C1 English, communication skills, enthusiasm",
       requirementsAz: "C1 ingilis dili, kommunikasiya bacarığı, entuziazm",
       requiredSkills: ["English language", "Teaching", "Communication with children"],
-      isActive: true
+      isActive: true,
+      deadline: "10.05.2026",
+      spotsLeft: "Limited spots",
+      spotsLeftAz: "Məhdud yerlər"
     },
     {
       title: "Food Bank — Support for Low-Income Families",
@@ -156,7 +178,10 @@ async function main() {
       requirements: "18+ years old, reliability, empathy",
       requirementsAz: "18+ yaş, etibarlılıq, empati",
       requiredSkills: ["Logistics", "Empathy", "Teamwork"],
-      isActive: true
+      isActive: true,
+      deadline: "14.05.2026",
+      spotsLeft: "Need 12 volunteers",
+      spotsLeftAz: "12 könüllü axtarılır"
     },
     {
       title: "Young Journalists School",
@@ -172,7 +197,10 @@ async function main() {
       requirements: "Writing/video/audio skills, creativity, ability to work independently",
       requirementsAz: "Yazı/video/audio bacarığı, yaradıcılıq, müstəqil işləmə qabiliyyəti",
       requiredSkills: ["Journalism", "Video editing", "Creative writing"],
-      isActive: true
+      isActive: true,
+      deadline: "30.04.2026",
+      spotsLeft: "Only 2 spots left!",
+      spotsLeftAz: "Son 2 yer qalıb!"
     },
     {
       title: "Sumgait — Coastal Ecology Bridge",
@@ -188,7 +216,10 @@ async function main() {
       requirements: "16+ years old, physical endurance, ecological sensitivity",
       requirementsAz: "16+ yaş, fiziki dözümlülük, ekoloji həssaslıq",
       requiredSkills: ["Environmental monitoring", "Physical activity", "Report writing"],
-      isActive: true
+      isActive: true,
+      deadline: "15.05.2026",
+      spotsLeft: "Huge demand! 20+ spots",
+      spotsLeftAz: "Böyük tələbat! 20+ yer"
     },
     {
       title: "Psychological Support Line — Online Volunteering",
@@ -204,7 +235,10 @@ async function main() {
       requirements: "Psychology/social work education, emotional stability, confidentiality",
       requirementsAz: "Psixologiya/sosial iş təhsili, emosional sabitlik, məxfilik",
       requiredSkills: ["Active listening", "Empathy", "Psychological knowledge"],
-      isActive: true
+      isActive: true,
+      deadline: "10.04.2026",
+      spotsLeft: "Only 4 specialists left",
+      spotsLeftAz: "Cəmi 4 mütəxəssis yeri qalıb"
     },
     {
       title: "Animal Welfare — Street Animal Care",
@@ -220,7 +254,124 @@ async function main() {
       requirements: "Love for animals, responsibility, consistency",
       requirementsAz: "Heyvanlara məhəbbət, məsuliyyət, ardıcıllıq",
       requiredSkills: ["Animal care", "Logistics", "Social media (for outreach)"],
-      isActive: true
+      isActive: true,
+      deadline: "12.05.2026",
+      spotsLeft: "Plenty of room!",
+      spotsLeftAz: "Yer çoxdur!"
+    },
+    {
+      title: "Industrial Waste Water Treatment Analysis",
+      titleAz: "Sənaye Tullantı Sularının Təmizlənməsi Analizi",
+      description: "Monitoring and analyzing the efficiency of waste water treatment systems in Sumgait's industrial zone. Involves sampling and laboratory testing.",
+      descriptionAz: "Sumqayıt sənaye zonasında çirkab sularının təmizlənməsi sistemlərinin səmərəliliyinin monitorinqi və analizi. Nümunə götürülməsi və laboratoriya testlərini əhatə edir.",
+      location: "Sumgait, STP (Sumgait Technologies Park)",
+      locationAz: "Sumqayıt, STP",
+      category: "Technical",
+      complexityLevel: "high",
+      benefits: "Chemical analysis certificate, lab experience, industrial networking",
+      benefitsAz: "Kimyəvi analiz sertifikatı, laboratoriya təcrübəsi, sənaye şəbəkəsi",
+      requirements: "Chemistry or Chemical Engineering student, basic lab safety knowledge",
+      requirementsAz: "Kimya və ya Kimya Mühəndisliyi tələbəsi, əsas laboratoriya təhlükəsizliyi bilgisi",
+      requiredSkills: ["Chemical analysis", "Laboratory safety", "Data recording"],
+      isActive: true,
+      deadline: "22.04.2026",
+      spotsLeft: "Only 2 lab spots!",
+      spotsLeftAz: "Cəmi 2 laboratoriya yeri!"
+    },
+    {
+      title: "Petroleum Refining Process Simulator Workshop",
+      titleAz: "Neft Emalı Proseslərinin Simulyasiyası Seminarı",
+      description: "Assisting in the development and testing of digital models for petroleum distillation and refining processes at SOCAR facilities.",
+      descriptionAz: "SOCAR obyektlərində neftin distilləsi və emal prosesləri üçün rəqəmsal modellərin hazırlanmasında və sınaqdan keçirilməsində iştirak.",
+      location: "Baku, Heydar Aliyev Oil Refinery",
+      locationAz: "Bakı, Heydər Əliyev adına Neft Emalı Zavodu",
+      category: "Technical",
+      complexityLevel: "high",
+      benefits: "Refining technology certificate, industry experience, career mentorship",
+      benefitsAz: "Emal texnologiyası sertifikatı, sənaye təcrübəsi, karyera mentorluğu",
+      requirements: "3rd or 4th year Chemical Engineering student, knowledge of thermodynamics",
+      requirementsAz: "3-cü və ya 4-cü kurs Kimya Mühəndisliyi tələbəsi, termodinamika bilgisi",
+      requiredSkills: ["Process simulation", "Thermodynamics", "Analytic thinking"],
+      isActive: true,
+      deadline: "28.04.2026",
+      spotsLeft: "Limited to 5 experts",
+      spotsLeftAz: "5 mütəxəssis üçün məhduddur"
+    },
+    {
+      title: "Green Chemistry Initiative - Lab Development",
+      titleAz: "Yaşıl Kimya Təşəbbüsü - Laboratoriya İnkişafı",
+      description: "Developing and testing eco-friendly chemical reactions for university lab courses to reduce hazardous waste production.",
+      descriptionAz: "Təhlükəli tullantıların həcmini azaltmaq üçün universitet laboratoriya kursları üçün ekoloji cəhətdən təmiz kimyəvi reaksiyaların hazırlanması və sınaqdan keçirilməsi.",
+      location: "Baku, State Oil and Industry University (ASOIU)",
+      locationAz: "Bakı, ADNSU",
+      category: "Educational",
+      complexityLevel: "medium",
+      benefits: "Sustainable chemistry certificate, research experience, academic credit",
+      benefitsAz: "Davamlı kimya sertifikatı, tədqiqat təcrübəsi, akademik kredit",
+      requirements: "Interest in sustainable chemistry, good academic standing",
+      requirementsAz: "Davamlı kimyaya maraq, yaxşı akademik göstəricilər",
+      requiredSkills: ["Research", "Green chemistry", "Laboratory work"],
+      isActive: true,
+      deadline: "10.05.2026",
+      spotsLeft: "4 openings left",
+      spotsLeftAz: "4 vakansiya qalıb"
+    },
+    {
+      title: "Polymer Quality Control Assistant",
+      titleAz: "Polimer Keyfiyyətinə Nəzarət Assistentliyi",
+      description: "Learning and assisting in the mechanical and chemical testing of plastic materials produced in Sumgait Chemical Industrial Park.",
+      descriptionAz: "Sumqayıt Kimya Sənaye Parkında istehsal olunan plastik materialların mexaniki və kimyəvi sınaqlarının öyrənilməsi və assistentlik edilməsi.",
+      location: "Sumgait, Chemical Industrial Park",
+      locationAz: "Sumqayıt, Kimya Sənaye Parkı",
+      category: "Technical",
+      complexityLevel: "medium",
+      benefits: "Quality assurance certificate, hands-on production experience",
+      benefitsAz: "Keyfiyyət təminatı sertifikatı, istehsalat təcrübəsi",
+      requirements: "Knowledge of organic chemistry and polymers",
+      requirementsAz: "Üzvi kimya və polimerlər haqqında bilik",
+      requiredSkills: ["Quality control", "Polymer science", "Testing equipment"],
+      isActive: true,
+      deadline: "15.04.2026",
+      spotsLeft: "3 spots remaining",
+      spotsLeftAz: "3 yer qalıb"
+    },
+    {
+      title: "Corrosion Prevention in Caspian Pipelines",
+      titleAz: "Xəzər Boru Kəmərlərində Korroziyanın Qarşısının Alınması",
+      description: "Studying the effects of Caspian seawater on steel pipelines and applying innovative protective coatings to prevent corrosion.",
+      descriptionAz: "Xəzər dənizi suyuna məruz qalan polad boru kəmərlərinə təsirinin öyrənilməsi və korroziyanın qarşısını almaq üçün innovativ qoruyucu örtüklərin tətbiqi.",
+      location: "Baku, Sangachal Terminal Area",
+      locationAz: "Bakı, Səngəçal terminalı ətrafı",
+      category: "Technical",
+      complexityLevel: "high",
+      benefits: "Corrosion engineering certificate, offshore safety training",
+      benefitsAz: "Korroziya mühəndisliyi sertifikatı, dənizdə təhlükəsizlik təlimi",
+      requirements: "Chemistry/Materials Science student, physically fit for field work",
+      requirementsAz: "Kimya/Materialşünaslıq tələbəsi, sahə işi üçün fiziki yararlılıq",
+      requiredSkills: ["Electrochemistry", "Materials science", "Corrosion testing"],
+      isActive: true,
+      deadline: "01.05.2026",
+      spotsLeft: "Only 6 spots left!",
+      spotsLeftAz: "Cəmi 6 yer qalıb!"
+    },
+    {
+      title: "Renewable Biofuels Pilot Project",
+      titleAz: "Bərpa Olunan Bioyanacaq Pilot Layihəsi",
+      description: "Participating in a laboratory-scale project to produce biodiesel from used cooking oil collected from Baku restaurants.",
+      descriptionAz: "Bakı restoranlarından toplanan işlənmiş bişirmə yağlarından biodizel istehsalı üzrə laboratoriya miqyaslı layihədə iştirak.",
+      location: "Baku, Research Institute of Chemical Additives",
+      locationAz: "Bakı, Aşqarlar Kimyası İnstitutu",
+      category: "Environmental",
+      complexityLevel: "medium",
+      benefits: "Bio-energy certificate, sustainable fuels expertise, startup opportunity",
+      benefitsAz: "Bio-enerji sertifikatı, davamlı yanacaq ekspertizası, startup imkanı",
+      requirements: "Basic knowledge of organic synthesis and bio-renewable energy",
+      requirementsAz: "Üzvi sintez və bərpa olunan bio-enerji haqqında əsas biliklər",
+      requiredSkills: ["Organic synthesis", "Bio-energy knowledge", "Laboratory techniques"],
+      isActive: true,
+      deadline: "08.05.2026",
+      spotsLeft: "Limited availability",
+      spotsLeftAz: "Məhdud yerlər"
     }
   ];
 

@@ -9,7 +9,14 @@ const nextConfig = {
   poweredByHeader: false,
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
-
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api', // This points to /api/index.js or /api/route.js
+      },
+    ];
   },
 };
 
