@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Search, Filter, ArrowRight, FolderOpen, Clock, Tag, ChevronRight, MapPin, XCircle, FileText, Award, CheckCircle, Leaf, Monitor, GraduationCap, Handshake, Sparkles, Loader2, Calendar, Target, ShieldCheck } from 'lucide-react';
+import {
+    Search, ArrowRight, FolderOpen, MapPin, XCircle, FileText,
+    Award, CheckCircle, Leaf, Monitor, GraduationCap, Handshake,
+    Sparkles, Loader2, Calendar, Target, ShieldCheck,
+} from 'lucide-react';
 import { projectsApi, applicationsApi } from '../../lib/api';
 import Navbar from '../../components/layout/Navbar';
 import { useAuth } from '../../lib/auth-context';
 import { useI18n } from '../../hooks/useI18n';
 import Footer from '../../components/layout/Footer';
-
 
 interface Project {
     id: string;
@@ -33,26 +36,23 @@ interface Project {
     spotsLeftAz?: string;
 }
 
-const CategoryBadge = ({ category, t }: { category: string, t: any }) => {
+const CategoryBadge = ({ category, t }: { category: string; t: any }) => {
     const icons: Record<string, any> = {
-        social: <Handshake size={14} />,
-        technical: <Monitor size={14} />,
-        educational: <GraduationCap size={14} />,
-        environmental: <Leaf size={14} />,
+        social: <Handshake size={13} />,
+        technical: <Monitor size={13} />,
+        educational: <GraduationCap size={13} />,
+        environmental: <Leaf size={13} />,
     };
-
     const colors: Record<string, string> = {
         social: 'bg-emerald-50 text-emerald-600 border-emerald-100',
         technical: 'bg-blue-50 text-blue-600 border-blue-100',
         educational: 'bg-indigo-50 text-indigo-600 border-indigo-100',
         environmental: 'bg-teal-50 text-teal-600 border-teal-100',
     };
-
     const catKey = category.toLowerCase();
-
     return (
-        <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border ${colors[catKey] || 'bg-slate-50 text-slate-600 border-slate-100'}`}>
-            <span>{icons[catKey] || <Sparkles size={14} />}</span>
+        <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border ${colors[catKey] || 'bg-slate-50 text-slate-600 border-slate-100'}`}>
+            <span>{icons[catKey] || <Sparkles size={13} />}</span>
             {t(`projects.categories.${catKey}`) || category}
         </div>
     );
@@ -61,12 +61,9 @@ const CategoryBadge = ({ category, t }: { category: string, t: any }) => {
 const ComplexityDots = ({ level }: { level: string }) => {
     const count = level === 'low' ? 1 : level === 'medium' ? 2 : level === 'high' ? 3 : 4;
     return (
-        <div className="flex gap-1.5">
+        <div className="flex gap-1">
             {[...Array(4)].map((_, i) => (
-                <div
-                    key={i}
-                    className={`w-2 h-2 rounded-full transition-all duration-500 ${i < count ? 'bg-emerald-400' : 'bg-slate-200'}`}
-                />
+                <div key={i} className={`w-2 h-2 rounded-full ${i < count ? 'bg-emerald-400' : 'bg-slate-200'}`} />
             ))}
         </div>
     );
@@ -84,9 +81,7 @@ export default function ProjectsPage() {
     const [complexity, setComplexity] = useState('');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-    useEffect(() => {
-        fetchProjects();
-    }, [category, complexity]);
+    useEffect(() => { fetchProjects(); }, [category, complexity]);
 
     const fetchProjects = async () => {
         setLoading(true);
@@ -106,169 +101,155 @@ export default function ProjectsPage() {
     };
 
     const handleApply = async (projectId: string) => {
-        if (!user) {
-            router.push('/auth/register');
-            return;
-        }
-
+        if (!user) { router.push('/auth/register'); return; }
         setApplying(projectId);
         try {
             await applicationsApi.apply(projectId);
             toast.success(t('dashboard.apply_success'));
             setSelectedProject(null);
         } catch (err: any) {
-            const errorMsg = err.response?.data?.message || t('dashboard.apply_error');
-            toast.error(errorMsg);
+            toast.error(err.response?.data?.message || t('dashboard.apply_error'));
         } finally {
             setApplying(null);
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 transition-colors duration-500">
+        <div className="min-h-screen bg-slate-50">
             <Navbar />
 
-            {/* Header Section */}
-            <div className="relative pt-44 pb-32 overflow-hidden bg-white">
-                <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-50/30 blur-[100px] rounded-full translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-1/4 h-full bg-blue-50/20 blur-[80px] rounded-full -translate-x-1/2" />
-                
-                <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center animate-fade-in">
-                    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] font-black uppercase tracking-[0.25em] mb-10">
-                        <Target size={14} />
+            {/* ── Page Header ── */}
+            <div className="relative pt-36 pb-24 overflow-hidden bg-white">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-50/40 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/4 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-50/30 blur-[80px] rounded-full -translate-x-1/2 translate-y-1/4 pointer-events-none" />
+
+                <div className="relative max-w-7xl mx-auto px-5 lg:px-8 text-center animate-fade-in">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-[0.2em] mb-8">
+                        <Target size={13} />
                         Available Missions
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-[-0.03em] leading-tight">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 mb-5 tracking-tight leading-tight">
                         {t('projects.title')}{' '}
-                        <span className="text-emerald-500">
-                            {t('features.titleHighlight')}
-                        </span>
+                        <span className="text-emerald-500">{t('features.titleHighlight')}</span>
                     </h1>
-                    <p className="text-slate-500 max-w-2xl mx-auto text-xl font-medium">
+                    <p className="text-slate-500 max-w-xl mx-auto text-lg font-medium">
                         {t('projects.subtitle')}
                     </p>
                 </div>
             </div>
 
-            {/* Filter & Search Bar */}
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-14 relative z-20">
-                <div className="bg-white p-3 rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100">
-                    <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-4">
-                        <div className="relative flex-1 group">
-                            <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none opacity-40 group-focus-within:opacity-100 transition-opacity">
-                                <Search size={20} className="text-emerald-500" />
+            {/* ── Filter & Search ── */}
+            <div className="max-w-7xl mx-auto px-5 lg:px-8 -mt-10 relative z-20">
+                <div className="bg-white p-3 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
+                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
+                        <div className="relative flex-1">
+                            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                                <Search size={18} className="text-slate-300" />
                             </div>
                             <input
                                 type="text"
                                 placeholder={t('projects.search_placeholder')}
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="input-field pl-16 h-16 !rounded-3xl border-slate-100 hover:border-slate-200 transition-colors"
+                                onChange={e => setSearch(e.target.value)}
+                                className="input-field pl-12 !rounded-2xl !border-transparent hover:!border-slate-200 !bg-slate-50 focus:!bg-white"
                             />
                         </div>
 
-                        <div className="flex flex-wrap md:flex-nowrap gap-4">
-                            <div className="relative inline-block min-w-[200px]">
-                                <select
-                                    className="input-field h-16 !rounded-3xl border-slate-100 pr-12 appearance-none cursor-pointer font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:20px_20px] bg-[right_1.5rem_center] bg-no-repeat"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                >
-                                    <option value="">{t('projects.all_categories')}</option>
-                                    <option value="Social">{t('projects.categories.social')}</option>
-                                    <option value="Technical">{t('projects.categories.technical')}</option>
-                                    <option value="Educational">{t('projects.categories.educational')}</option>
-                                    <option value="Environmental">{t('projects.categories.environmental')}</option>
-                                </select>
-                            </div>
+                        <div className="flex flex-wrap sm:flex-nowrap gap-3">
+                            <select
+                                className="input-field !rounded-2xl !border-transparent !bg-slate-50 appearance-none cursor-pointer flex-1 sm:min-w-[160px]"
+                                value={category}
+                                onChange={e => setCategory(e.target.value)}
+                            >
+                                <option value="">{t('projects.all_categories')}</option>
+                                <option value="Social">{t('projects.categories.social')}</option>
+                                <option value="Technical">{t('projects.categories.technical')}</option>
+                                <option value="Educational">{t('projects.categories.educational')}</option>
+                                <option value="Environmental">{t('projects.categories.environmental')}</option>
+                            </select>
 
-                            <div className="relative inline-block min-w-[200px]">
-                                <select
-                                    className="input-field h-16 !rounded-3xl border-slate-100 pr-12 appearance-none cursor-pointer font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:20px_20px] bg-[right_1.5rem_center] bg-no-repeat"
-                                    value={complexity}
-                                    onChange={(e) => setComplexity(e.target.value)}
-                                >
-                                    <option value="">{t('projects.all_levels')}</option>
-                                    <option value="low">{t('projects.complexity.low')}</option>
-                                    <option value="medium">{t('projects.complexity.medium')}</option>
-                                    <option value="high">{t('projects.complexity.high')}</option>
-                                    <option value="expert">{t('projects.complexity.expert')}</option>
-                                </select>
-                            </div>
+                            <select
+                                className="input-field !rounded-2xl !border-transparent !bg-slate-50 appearance-none cursor-pointer flex-1 sm:min-w-[150px]"
+                                value={complexity}
+                                onChange={e => setComplexity(e.target.value)}
+                            >
+                                <option value="">{t('projects.all_levels')}</option>
+                                <option value="low">{t('projects.complexity.low')}</option>
+                                <option value="medium">{t('projects.complexity.medium')}</option>
+                                <option value="high">{t('projects.complexity.high')}</option>
+                                <option value="expert">{t('projects.complexity.expert')}</option>
+                            </select>
 
-                            <button type="submit" className="btn-primary !h-16 px-12 !rounded-3xl shadow-emerald-500/10 active:scale-95 transition-all">
-                                <Search size={22} className="stroke-[3]" />
-                                <span className="uppercase tracking-widest text-[11px] font-black">{t('common.search')}</span>
+                            <button type="submit" className="btn-primary !px-8 !rounded-2xl !py-3 whitespace-nowrap">
+                                <Search size={18} />
+                                <span className="font-bold">{t('common.search')}</span>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            {/* Projects Grid */}
-            <div className="section-container pb-40">
+            {/* ── Projects Grid ── */}
+            <div className="section-container pb-32">
                 {loading ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="card h-[450px] animate-pulse bg-white border-slate-100 rounded-[2.5rem]" />
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3, 4, 5, 6].map(i => (
+                            <div key={i} className="card h-96 animate-pulse bg-slate-100 border-0 shadow-none" />
                         ))}
                     </div>
                 ) : projects.length > 0 ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
-                        {projects.map((project) => (
-                            <div key={project.id} className="group card !p-0 flex flex-col h-full bg-white hover:border-emerald-200 transition-all duration-500 rounded-[2.5rem] overflow-hidden border-slate-100">
-                                {/* Card Body */}
-                                <div className="p-10 flex flex-col h-full">
-                                    <div className="flex justify-between items-start mb-8">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                        {projects.map(project => (
+                            <div key={project.id} className="group card !p-0 flex flex-col h-full hover:border-emerald-200 !rounded-3xl overflow-hidden">
+                                <div className="p-6 sm:p-8 flex flex-col h-full">
+                                    <div className="flex justify-between items-start mb-5">
                                         <CategoryBadge category={project.category} t={t} />
                                         <ComplexityDots level={project.complexityLevel} />
                                     </div>
 
-                                    <h3 className="text-2xl font-extrabold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors leading-tight">
+                                    <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:text-emerald-600 transition-colors leading-snug">
                                         {(locale === 'az' && project.titleAz) ? project.titleAz : project.title}
                                     </h3>
 
                                     {project.spotsLeft && (
-                                        <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-xl border border-amber-100/50 w-fit">
-                                            <Sparkles size={14} className="animate-pulse" />
+                                        <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-xl border border-amber-100 w-fit">
+                                            <Sparkles size={12} className="animate-pulse" />
                                             {(locale === 'az' && project.spotsLeftAz) ? project.spotsLeftAz : project.spotsLeft}
                                         </div>
                                     )}
 
-                                    <p className="text-slate-500 text-sm font-medium line-clamp-3 mb-10 flex-grow leading-relaxed">
+                                    <p className="text-slate-500 text-sm font-medium line-clamp-3 mb-6 flex-grow leading-relaxed">
                                         {(locale === 'az' && project.descriptionAz) ? project.descriptionAz : project.description}
                                     </p>
 
-                                    {/* Project Meta */}
-                                    <div className="grid grid-cols-2 gap-4 mb-10 pt-8 border-t border-slate-50">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest uppercase">{t('projects.location')}</span>
-                                            <div className="flex items-center gap-2 text-slate-800 font-bold text-xs truncate">
-                                                <MapPin size={14} className="text-emerald-500 shrink-0" />
+                                    <div className="grid grid-cols-2 gap-3 mb-6 pt-5 border-t border-slate-50">
+                                        <div>
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('projects.location')}</div>
+                                            <div className="flex items-center gap-1.5 text-slate-800 font-bold text-xs truncate">
+                                                <MapPin size={12} className="text-emerald-500 shrink-0" />
                                                 {(locale === 'az' && project.locationAz) ? project.locationAz : project.location || 'Azerbaijan'}
                                             </div>
                                         </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest uppercase">Deadline</span>
-                                            <div className="flex items-center gap-2 text-slate-800 font-bold text-xs">
-                                                <Calendar size={14} className="text-emerald-500 shrink-0" />
+                                        <div>
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Deadline</div>
+                                            <div className="flex items-center gap-1.5 text-slate-800 font-bold text-xs">
+                                                <Calendar size={12} className="text-emerald-500 shrink-0" />
                                                 {project.deadline || new Date(project.createdAt).toLocaleDateString()}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between gap-4">
+                                    <div className="flex items-center justify-between gap-3">
                                         <button
                                             onClick={() => setSelectedProject(project)}
-                                            className="text-[12px] font-bold text-slate-400 hover:text-emerald-600 transition-colors flex items-center gap-2 uppercase tracking-widest group/btn"
+                                            className="text-[11px] font-bold text-slate-400 hover:text-emerald-600 transition-colors flex items-center gap-1.5 uppercase tracking-widest"
                                         >
                                             {t('projects.details')}
-                                            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                            <ArrowRight size={14} />
                                         </button>
-
                                         <button
                                             onClick={() => setSelectedProject(project)}
-                                            className="btn-primary !px-6 !py-3.5 !rounded-2xl !text-[10px] tracking-widest uppercase"
+                                            className="btn-primary !px-5 !py-2.5 !rounded-xl !text-[11px] tracking-wide"
                                         >
                                             {t('projects.apply_button')}
                                         </button>
@@ -277,31 +258,22 @@ export default function ProjectsPage() {
                             </div>
                         ))}
 
-                        {/* Sign In Reminder Reminder CTA */}
+                        {/* Login CTA card */}
                         {!user && (
-                            <div className="group card flex flex-col items-center justify-center text-center p-12 bg-emerald-600 border-none rounded-[2.5rem] relative overflow-hidden h-full shadow-emerald-200">
-                                {/* Abstract background patterns */}
-                                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
-                                     style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
-                                
+                            <div className="group card flex flex-col items-center justify-center text-center p-8 bg-emerald-600 border-none !rounded-3xl relative overflow-hidden h-full">
+                                <div className="absolute inset-0 opacity-10 pointer-events-none"
+                                    style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
                                 <div className="relative z-10">
-                                    <div className="w-20 h-20 rounded-3xl bg-white/20 flex items-center justify-center mb-8 mx-auto group-hover:scale-110 transition-transform duration-500 backdrop-blur-md ring-8 ring-white/5">
-                                        <ShieldCheck size={36} className="text-white" />
+                                    <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-6 mx-auto backdrop-blur-md">
+                                        <ShieldCheck size={28} className="text-white" />
                                     </div>
-                                    <h3 className="text-3xl font-black text-white mb-6 leading-[1.1]">{t('projects.login_to_see_more')}</h3>
-                                    <p className="text-emerald-50 text-base mb-10 font-medium opacity-90 leading-relaxed px-4">{t('projects.login_to_see_more_desc')}</p>
-                                    
-                                    <div className="flex flex-col gap-4 w-full px-6">
-                                        <Link
-                                            href="/auth/login"
-                                            className="bg-white text-emerald-600 px-8 py-5 rounded-[1.5rem] font-bold text-xs uppercase tracking-widest hover:bg-emerald-50 hover:-translate-y-1 transition-all shadow-xl shadow-emerald-900/10"
-                                        >
+                                    <h3 className="text-2xl font-black text-white mb-4 leading-snug">{t('projects.login_to_see_more')}</h3>
+                                    <p className="text-emerald-50 text-sm mb-7 font-medium opacity-90">{t('projects.login_to_see_more_desc')}</p>
+                                    <div className="flex flex-col gap-3 w-full">
+                                        <Link href="/auth/login" className="bg-white text-emerald-600 px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-50 transition-all">
                                             {t('projects.sign_in_cta')}
                                         </Link>
-                                        <Link
-                                            href="/auth/register"
-                                            className="text-white/80 hover:text-white font-bold text-xs uppercase tracking-[0.2em] transition-colors"
-                                        >
+                                        <Link href="/auth/register" className="text-white/80 hover:text-white font-bold text-xs uppercase tracking-widest transition-colors">
                                             {t('projects.register_cta')}
                                         </Link>
                                     </div>
@@ -310,161 +282,167 @@ export default function ProjectsPage() {
                         )}
                     </div>
                 ) : (
-                    <div className="text-center py-40 animate-fade-in px-6">
-                        <div className="w-28 h-28 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 border border-emerald-100 shadow-xl shadow-emerald-100/50">
-                            <Leaf size={48} className="text-emerald-400" />
+                    <div className="text-center py-32 animate-fade-in">
+                        <div className="w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-emerald-100">
+                            <Leaf size={36} className="text-emerald-400" />
                         </div>
-                        <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">
-                            {t('projects.empty_state')}
-                        </h2>
-                        <p className="text-slate-500 text-lg font-medium italic max-w-sm mx-auto">
-                            Daha fərqli axtarış meyarları sınaqdan keçirin
-                        </p>
+                        <h2 className="text-2xl font-black text-slate-900 mb-3">{t('projects.empty_state')}</h2>
+                        <p className="text-slate-400 font-medium">Daha fərqli axtarış meyarları sınaqdan keçirin</p>
                     </div>
                 )}
             </div>
 
-            {/* Project Details Modal */}
+            {/* ══════════════════════════════════════════
+                PROJECT DETAILS MODAL — FULLY RESPONSIVE
+                ══════════════════════════════════════════ */}
             {selectedProject && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12 bg-slate-900/60 backdrop-blur-xl animate-fade-in">
-                    <div className="bg-white rounded-[3rem] w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-[0_40px_120px_-20px_rgba(0,0,0,0.3)] relative flex flex-col animate-slide-up">
-                        
-                        {/* Modal Hero */}
-                        <div className="relative h-64 md:h-80 w-full shrink-0 overflow-hidden bg-slate-900">
-                             {/* Mesh Gradient Background */}
-                            <div className="absolute inset-0 opacity-40">
-                                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500 blur-[80px] rounded-full animate-pulse" />
-                                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500 blur-[60px] rounded-full animate-pulse delay-700" />
+                <div
+                    className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-slate-900/70 backdrop-blur-sm animate-fade-in"
+                    onClick={e => { if (e.target === e.currentTarget) setSelectedProject(null); }}
+                >
+                    {/* Modal panel — slides up from bottom on mobile, centered on desktop */}
+                    <div className="bg-white w-full sm:max-w-2xl lg:max-w-4xl max-h-[92vh] sm:max-h-[88vh] rounded-t-[28px] sm:rounded-3xl flex flex-col shadow-2xl overflow-hidden animate-slide-up">
+
+                        {/* ── Hero area ── */}
+                        <div className="relative h-40 sm:h-52 md:h-60 shrink-0 bg-slate-900 overflow-hidden">
+                            <div className="absolute inset-0">
+                                <div className="absolute -top-10 -right-10 w-64 h-64 bg-emerald-500/60 blur-[80px] rounded-full" />
+                                <div className="absolute -bottom-10 -left-10 w-56 h-56 bg-blue-500/50 blur-[70px] rounded-full" />
                             </div>
 
+                            {/* Close */}
                             <button
                                 onClick={() => setSelectedProject(null)}
-                                className="absolute top-8 right-8 p-3.5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all z-50 backdrop-blur-xl border border-white/10 hover:scale-105 active:scale-95"
+                                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 p-2 sm:p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/10 backdrop-blur-xl transition-all"
+                                aria-label="Close"
                             >
-                                <XCircle size={24} />
+                                <XCircle size={18} />
                             </button>
 
-                            <div className="absolute inset-0 flex items-end p-12 md:p-16 z-10 bg-gradient-to-t from-slate-900 to-transparent">
+                            {/* Overlay text */}
+                            <div className="absolute inset-0 z-10 flex items-end p-4 sm:p-6 bg-gradient-to-t from-slate-900/90 via-slate-900/10 to-transparent">
                                 <div className="w-full">
-                                    <div className="flex flex-wrap items-center gap-4 mb-6">
+                                    <div className="flex flex-wrap items-center gap-2 mb-2">
                                         <CategoryBadge category={selectedProject.category} t={t} />
-                                        <div className="bg-white/10 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-xl flex items-center gap-3">
-                                            <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Level:</span>
+                                        <div className="flex items-center gap-2 bg-white/10 border border-white/10 px-2.5 py-1 rounded-full backdrop-blur-xl">
+                                            <span className="text-[9px] text-white/50 font-black uppercase tracking-widest">Level</span>
                                             <ComplexityDots level={selectedProject.complexityLevel} />
                                         </div>
                                     </div>
-                                    <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
+                                    <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
                                         {(locale === 'az' && selectedProject.titleAz) ? selectedProject.titleAz : selectedProject.title}
                                     </h2>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Modal Content */}
-                        <div className="flex-1 overflow-y-auto p-12 md:p-16 scrollbar-hide">
-                            <div className="grid lg:grid-cols-3 gap-16">
-                                <div className="lg:col-span-2 space-y-16">
-                                    {/* Description Section */}
-                                    <div>
-                                        <div className="flex items-center gap-4 mb-8">
-                                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
-                                                <FileText size={22} />
-                                            </div>
-                                            <h3 className="text-slate-900 font-extrabold text-2xl tracking-tight">Missiya Haqqında</h3>
+                        {/* ── Scrollable content ── */}
+                        <div className="flex-1 overflow-y-auto overscroll-contain">
+                            <div className="p-4 sm:p-6 md:p-8 space-y-6">
+
+                                {/* Description */}
+                                <div>
+                                    <div className="flex items-center gap-2.5 mb-3">
+                                        <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 flex-shrink-0">
+                                            <FileText size={15} />
                                         </div>
-                                        <p className="text-slate-600 leading-relaxed text-xl font-medium whitespace-pre-line">
-                                            {(locale === 'az' && selectedProject.descriptionAz) ? selectedProject.descriptionAz : selectedProject.description}
-                                        </p>
+                                        <h3 className="text-base font-extrabold text-slate-900">Missiya Haqqında</h3>
+                                    </div>
+                                    <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium whitespace-pre-line">
+                                        {(locale === 'az' && selectedProject.descriptionAz) ? selectedProject.descriptionAz : selectedProject.description}
+                                    </p>
+                                </div>
+
+                                {/* Benefits & Requirements — side by side on sm+, stacked on xs */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50 border border-emerald-100">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <Award size={15} className="text-emerald-500 flex-shrink-0" />
+                                            <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.benefits')}</h4>
+                                        </div>
+                                        <ul className="space-y-2">
+                                            {((locale === 'az' && selectedProject.benefitsAz) ? selectedProject.benefitsAz : selectedProject.benefits || '')
+                                                .split('\n').filter(Boolean).map((item, i) => (
+                                                    <li key={i} className="text-xs sm:text-sm text-slate-700 font-medium flex gap-2 leading-relaxed">
+                                                        <CheckCircle size={13} className="text-emerald-500 shrink-0 mt-0.5" />
+                                                        {item.trim()}
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
                                     </div>
 
-                                    {/* Benefits & Requirements Grids */}
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="p-10 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-50 hover:bg-emerald-50 transition-colors duration-500">
-                                            <div className="flex items-center gap-3 mb-8">
-                                                <Award size={20} className="text-emerald-500" />
-                                                <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.benefits')}</h4>
-                                            </div>
-                                            <ul className="space-y-4">
-                                                {((locale === 'az' && selectedProject.benefitsAz) ? selectedProject.benefitsAz : selectedProject.benefits || '')
-                                                    .split('\n').filter(Boolean).map((item, i) => (
-                                                        <li key={i} className="text-sm text-slate-700 font-bold flex gap-3 leading-relaxed">
-                                                            <CheckCircle size={16} className="text-emerald-500 shrink-0 mt-0.5" />
-                                                            {item.trim()}
-                                                        </li>
-                                                    ))
-                                                }
-                                            </ul>
+                                    <div className="p-4 sm:p-5 rounded-2xl bg-blue-50 border border-blue-100">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <ShieldCheck size={15} className="text-blue-500 flex-shrink-0" />
+                                            <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.requirements')}</h4>
                                         </div>
-
-                                        <div className="p-10 rounded-[2.5rem] bg-blue-50/50 border border-blue-50 hover:bg-blue-50 transition-colors duration-500">
-                                            <div className="flex items-center gap-3 mb-8">
-                                                < ShieldCheck size={20} className="text-blue-500" />
-                                                <h4 className="text-slate-900 font-black text-xs uppercase tracking-widest">{t('projects.requirements')}</h4>
-                                            </div>
-                                            <ul className="space-y-4">
-                                                {((locale === 'az' && selectedProject.requirementsAz) ? selectedProject.requirementsAz : selectedProject.requirements || '')
-                                                    .split('\n').filter(Boolean).map((item, i) => (
-                                                        <li key={i} className="text-sm text-slate-700 font-bold flex gap-3 leading-relaxed">
-                                                            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
-                                                            {item.trim()}
-                                                        </li>
-                                                    ))
-                                                }
-                                            </ul>
-                                        </div>
+                                        <ul className="space-y-2">
+                                            {((locale === 'az' && selectedProject.requirementsAz) ? selectedProject.requirementsAz : selectedProject.requirements || '')
+                                                .split('\n').filter(Boolean).map((item, i) => (
+                                                    <li key={i} className="text-xs sm:text-sm text-slate-700 font-medium flex gap-2 leading-relaxed">
+                                                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                                                        {item.trim()}
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
                                     </div>
                                 </div>
 
-                                {/* Sidebar Info Card */}
-                                <div className="space-y-8">
-                                    <div className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100">
-                                        <div className="space-y-10">
-                                            <div>
-                                                <div className="text-[10px] uppercase font-black text-slate-400 mb-4 tracking-[0.2em]">Location</div>
-                                                <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                                                    <MapPin size={22} className="text-emerald-500" />
-                                                    <span className="font-bold text-slate-800 text-sm truncate">{(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}</span>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div className="text-[10px] uppercase font-black text-slate-400 mb-4 tracking-[0.2em]">Required Skills</div>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {selectedProject.requiredSkills.map(skill => (
-                                                        <span key={skill} className="px-4 py-2 bg-white text-emerald-600 font-bold rounded-xl border border-emerald-100 text-[10px] uppercase tracking-widest shadow-sm">
-                                                            {skill}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className="pt-4 border-t border-slate-200">
-                                                <button
-                                                    onClick={() => handleApply(selectedProject.id)}
-                                                    disabled={!!applying}
-                                                    className="btn-primary w-full !py-5 !rounded-2xl !text-sm group/apply shadow-lg"
-                                                >
-                                                    {applying === selectedProject.id ? (
-                                                        <Loader2 size={18} className="animate-spin" />
-                                                    ) : (
-                                                        <>
-                                                            <span>Join Mission</span>
-                                                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                                                        </>
-                                                    )}
-                                                </button>
-                                            </div>
-
-                                            <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
-                                                <Sparkles size={16} className="text-amber-500 shrink-0 mt-0.5" />
-                                                <p className="text-[10px] text-amber-700 font-bold leading-relaxed">
-                                                    {t('projects.eligibility_notice')}
-                                                </p>
+                                {/* Meta info + Apply */}
+                                <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4 sm:p-5 space-y-4">
+                                    <div className="flex flex-wrap gap-4">
+                                        {/* Location */}
+                                        <div className="flex-1 min-w-[140px]">
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Location</div>
+                                            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-100">
+                                                <MapPin size={14} className="text-emerald-500 flex-shrink-0" />
+                                                <span className="font-bold text-slate-800 text-xs truncate">
+                                                    {(locale === 'az' && selectedProject.locationAz) ? selectedProject.locationAz : selectedProject.location || 'Azerbaijan'}
+                                                </span>
                                             </div>
                                         </div>
+                                        {/* Skills */}
+                                        <div className="flex-1 min-w-[140px]">
+                                            <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Required Skills</div>
+                                            <div className="flex flex-wrap gap-1">
+                                                {selectedProject.requiredSkills.map(skill => (
+                                                    <span key={skill} className="px-2 py-1 bg-white text-emerald-600 font-bold rounded-lg border border-emerald-100 text-[9px] uppercase tracking-wide">
+                                                        {skill}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Notice */}
+                                    <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-xl border border-amber-100">
+                                        <Sparkles size={13} className="text-amber-500 shrink-0 mt-0.5" />
+                                        <p className="text-[10px] text-amber-700 font-bold leading-relaxed">
+                                            {t('projects.eligibility_notice')}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* ── Sticky bottom Apply button ── */}
+                        <div className="shrink-0 p-4 sm:p-5 border-t border-slate-100 bg-white">
+                            <button
+                                onClick={() => handleApply(selectedProject.id)}
+                                disabled={!!applying}
+                                className="btn-primary w-full !py-4 !rounded-2xl !text-base"
+                            >
+                                {applying === selectedProject.id ? (
+                                    <Loader2 size={20} className="animate-spin" />
+                                ) : (
+                                    <>
+                                        <span>Join Mission</span>
+                                        <ArrowRight size={18} />
+                                    </>
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -474,4 +452,3 @@ export default function ProjectsPage() {
         </div>
     );
 }
-
