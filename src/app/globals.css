@@ -95,7 +95,7 @@
 
   /* ── Cards ── */
   .card {
-    @apply p-8 transition-all duration-400 relative bg-white;
+    @apply p-8 transition-all duration-500 relative bg-white;
     border: 1.5px solid #f1f5f9;
     border-radius: 28px;
     box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.06);
