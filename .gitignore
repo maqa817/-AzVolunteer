@@ -32,5 +32,10 @@ coverage/
 Thumbs.db
 
 # Typo folders
-"{backend"
-"{controllers,middleware,routes,services,utils},prisma"
+backend/
+controllers/
+middleware/
+routes/
+services/
+utils/
+prisma/

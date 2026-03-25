@@ -4,7 +4,7 @@
 
 :root {
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f9fafb;
+  --color-bg-secondary: #f8fafc;
   --color-surface: #ffffff;
   --color-accent: #10b981;
   --color-accent-hover: #059669;
@@ -12,6 +12,7 @@
   --color-text-primary: #111827;
   --color-text-secondary: #4b5563;
   --color-text-muted: #9ca3af;
+  --color-accent-lime: #bef264;
   --color-border: #e5e7eb;
   --color-shadow: rgba(0, 0, 0, 0.04);
 }
@@ -25,7 +26,6 @@
     background-color: var(--color-bg-secondary);
     color: var(--color-text-primary);
     font-family: var(--font-inter), sans-serif;
-    @apply antialiased;
   }
 
   h1,
@@ -100,7 +100,8 @@
 
   /* ── Cards ── */
   .card {
-    @apply p-6 sm:p-10 transition-all duration-500 relative bg-white;
+    @apply p-6 sm:p-10 transition-all duration-500 relative;
+    background-color: var(--color-surface);
     border: 1.5px solid #f1f5f9;
     border-radius: 28px;
     box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
@@ -109,7 +110,7 @@
   .card:hover {
     @apply -translate-y-1.5;
     box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.10);
-    border-color: #e2e8f0;
+    border-color: var(--color-accent);
   }
 
   /* ── Badges ── */
@@ -133,15 +134,25 @@
   /* ── Text gradient ── */
   .text-gradient {
     @apply bg-clip-text text-transparent;
+    -webkit-background-clip: text;
     background-image: linear-gradient(135deg, #10b981 0%, #0d9488 60%, #06b6d4 100%);
   }
 
   .glass-header {
     @apply sticky top-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-slate-100;
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .soft-shadow {
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+  }
+
+  .animate-slide-up {
+    opacity: 0;
   }
 }
 
@@ -163,7 +174,7 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
-  background-clip: content-box;
+  background-clip: padding-box;
 }
 
 /* ── Utility: hide scrollbar ── */
