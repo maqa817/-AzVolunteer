@@ -241,38 +241,38 @@ export default function AdminPage() {
 
   const StatusBadge = ({ status }: { status: string }) => {
     if (status === 'approved') return (
-      <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-green-500/10 text-green-400 border border-green-500/20">
+      <span className="badge-approved flex items-center gap-1.5 font-bold uppercase tracking-widest text-[10px]">
         ✅ Approved
       </span>
     );
     if (status === 'rejected') return (
-      <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 border border-rose-500/20">
+      <span className="badge-rejected flex items-center gap-1.5 font-bold uppercase tracking-widest text-[10px]">
         🍁 Rejected
       </span>
     );
     return (
-      <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-500 border border-amber-500/20 animate-pulse">
+      <span className="badge-pending flex items-center gap-1.5 font-bold uppercase tracking-widest text-[10px] animate-pulse">
         🍂 Pending
       </span>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1a0f]">
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
 
-      <div className="max-w-[1440px] mx-auto pt-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8 pb-32">
 
           {/* Sidebar Navigation */}
           <aside className="lg:w-[320px] shrink-0">
-            <div className="card p-8 bg-[#0f2318] border-white/5 shadow-2xl sticky top-28 rounded-[32px] overflow-hidden group">
-              <div className="absolute -top-10 -left-10 w-32 h-32 bg-green-500/10 blur-[50px] rounded-full group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+            <div className="card !p-8 sticky top-28 group content-start h-max">
+              <div className="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
 
               <div className="relative z-10 space-y-8">
-                <div className="pb-8 border-b border-white/5">
-                  <h3 className="text-xl font-black text-white mb-1">Admin Panel</h3>
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-green-500/60 flex items-center gap-2">
+                <div className="pb-8 border-b border-slate-100">
+                  <h3 className="text-xl font-bold text-slate-900 mb-1">Admin Panel</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 flex items-center gap-2">
                     <Shield size={12} /> System Administrator
                   </p>
                 </div>
@@ -283,27 +283,27 @@ export default function AdminPage() {
                       key={t.id}
                       onClick={() => setTab(t.id)}
                       className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all duration-300 group/nav ${tab === t.id
-                        ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                        : 'text-slate-500 hover:text-white hover:bg-white/5'
+                        ? 'bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm'
+                        : 'text-slate-500 hover:text-emerald-600 hover:bg-slate-50'
                         }`}
                     >
                       <div className="flex items-center gap-4">
                         <span className={`${tab === t.id ? 'scale-110' : 'group-hover/nav:translate-x-1'} transition-transform duration-300`}>
                           {t.icon}
                         </span>
-                        <span className="text-xs font-black uppercase tracking-widest">{t.label}</span>
+                        <span className="text-xs font-bold uppercase tracking-widest">{t.label}</span>
                       </div>
                       {tab === t.id && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_var(--color-accent-lime)]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm" />
                       )}
                     </button>
                   ))}
                 </nav>
 
-                <div className="pt-8 border-t border-white/5 opacity-50">
-                  <button className="w-full flex items-center gap-4 p-4 text-slate-600 hover:text-slate-300 transition-colors">
+                <div className="pt-8 border-t border-slate-100 opacity-80">
+                  <button className="w-full flex items-center gap-4 p-4 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors">
                     <Settings size={18} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Settings</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Settings</span>
                   </button>
                 </div>
               </div>
@@ -318,46 +318,48 @@ export default function AdminPage() {
               <div className="space-y-8">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   {[
-                    { label: t('admin.total_volunteers'), value: stats.totalUsers, icon: <Users size={24} />, color: 'bg-green-500' },
-                    { label: t('admin.pending_review'), value: stats.pendingUsers, icon: <Clock size={24} />, color: 'bg-amber-500' },
-                    { label: t('admin.approved_volunteers'), value: stats.approvedUsers, icon: <CheckCircle size={24} />, color: 'bg-emerald-500' },
-                    { label: t('admin.active_projects'), value: stats.totalProjects, icon: <FolderOpen size={24} />, color: 'bg-lime-500' },
-                    { label: t('admin.app_submissions'), value: stats.totalApplications, icon: <BarChart3 size={24} />, color: 'bg-teal-500' },
-                    { label: t('admin.system_files'), value: stats.registrationFiles, icon: <FileText size={24} />, color: 'bg-emerald-600' },
+                    { label: t('admin.total_volunteers'), value: stats.totalUsers, icon: <Users size={24} />, color: 'bg-emerald-50 text-emerald-600' },
+                    { label: t('admin.pending_review'), value: stats.pendingUsers, icon: <Clock size={24} />, color: 'bg-amber-50 text-amber-600' },
+                    { label: t('admin.approved_volunteers'), value: stats.approvedUsers, icon: <CheckCircle size={24} />, color: 'bg-teal-50 text-teal-600' },
+                    { label: t('admin.active_projects'), value: stats.totalProjects, icon: <FolderOpen size={24} />, color: 'bg-cyan-50 text-cyan-600' },
+                    { label: t('admin.app_submissions'), value: stats.totalApplications, icon: <BarChart3 size={24} />, color: 'bg-blue-50 text-blue-600' },
+                    { label: t('admin.system_files'), value: stats.registrationFiles, icon: <FileText size={24} />, color: 'bg-indigo-50 text-indigo-600' },
                   ].map((s, i) => (
-                    <div key={i} className="card p-8 bg-[#0f2318]/60 border-white/5 hover:border-green-500/20 transition-all group overflow-hidden relative">
+                    <div key={i} className="card !p-8 group overflow-hidden relative flex flex-col items-start gap-4">
                       <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-150 group-hover:rotate-12 transition-transform duration-1000">
                         {s.icon}
                       </div>
-                      <div className={`w-12 h-12 rounded-2xl ${s.color}/10 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform`}>
+                      <div className={`w-12 h-12 rounded-2xl ${s.color} flex items-center justify-center mb-2 group-hover:scale-110 transition-transform`}>
                         {s.icon}
                       </div>
-                      <div className="text-4xl font-black text-white mb-2 tracking-tighter">{s.value}</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-green-500 transition-colors">{s.label}</div>
+                      <div>
+                        <div className="text-4xl font-bold text-slate-900 mb-1 tracking-tighter">{s.value}</div>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 group-hover:text-emerald-600 transition-colors">{s.label}</div>
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 {/* System Activity Chart Placeholder */}
-                <div className="card p-10 bg-black/20 border-white/5 rounded-[40px] relative overflow-hidden group">
+                <div className="card !p-10 bg-slate-50/50 border-slate-100 relative overflow-hidden group">
                   <div className="flex items-center justify-between mb-10">
-                    <h3 className="text-xl font-bold text-white flex items-center gap-3">
-                      <Zap size={20} className="text-green-400" /> System Growth
+                    <h3 className="text-xl font-bold text-slate-900 flex items-center gap-3">
+                      <Zap size={20} className="text-emerald-500" /> System Growth
                     </h3>
                     <div className="flex gap-2">
-                      <span className="px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[9px] font-black text-green-400 uppercase tracking-widest">Growth +24%</span>
+                      <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-[9px] font-bold text-emerald-600 uppercase tracking-widest">Growth +24%</span>
                     </div>
                   </div>
-                  <div className="h-48 flex items-end gap-2 md:gap-4 px-4">
+                  <div className="h-48 flex items-end gap-2 md:gap-4 px-4 overflow-hidden">
                     {[40, 60, 45, 90, 65, 85, 100, 75, 55, 80, 95, 85].map((h, i) => (
                       <div
                         key={i}
-                        className="flex-1 bg-gradient-to-t from-green-600 to-lime-400 rounded-t-lg opacity-40 group-hover:opacity-80 transition-all duration-700"
+                        className="flex-1 bg-gradient-to-t from-emerald-500 to-teal-400 rounded-t-lg opacity-40 group-hover:opacity-80 transition-all duration-700"
                         style={{ height: `${h}%` }}
                       />
                     ))}
                   </div>
-                  <div className="mt-6 flex justify-between px-4 text-[9px] font-black text-slate-600 uppercase tracking-widest">
+                  <div className="mt-6 flex justify-between px-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                     <span>JAN</span><span>DEC</span>
                   </div>
                 </div>
@@ -367,22 +369,22 @@ export default function AdminPage() {
             {/* USERS MANAGEMENT */}
             {tab === 'users' && (
               <div className="space-y-6">
-                <div className="card p-4 bg-[#0f2318]/60 border-white/5 backdrop-blur-3xl rounded-[28px] flex flex-col md:flex-row gap-4">
+                <div className="card !p-4 flex flex-col md:flex-row gap-4">
                   <div className="relative flex-1 group">
-                    <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-green-500/40 group-focus-within:text-green-400 transition-colors" />
+                    <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
                     <input
-                      className="input-field pl-14 h-14 !bg-black/20 !border-white/5 !rounded-2xl"
+                      className="input-field pl-14 h-14 !bg-slate-50 !border-slate-100 !rounded-2xl"
                       placeholder="Search name, email, or credentials..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                   </div>
                   <select
-                    className="input-field w-full md:w-56 h-14 !bg-black/20 !border-white/5 !rounded-2xl appearance-none pr-10 pl-6 text-sm font-bold uppercase tracking-widest cursor-pointer"
+                    className="input-field w-full md:w-56 h-14 !bg-slate-50 !border-slate-100 !rounded-2xl appearance-none pr-10 pl-6 text-sm font-bold uppercase tracking-widest cursor-pointer text-slate-600"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
-                    <option value="">{t('dashboard.status.all')}</option>
+                    <option value="">{t('dashboard.status.all') || "STATUS: ALL"}</option>
                     <option value="pending">{t('dashboard.status.pending')}</option>
                     <option value="approved">{t('dashboard.status.approved')}</option>
                     <option value="rejected">{t('dashboard.status.rejected')}</option>
@@ -391,25 +393,25 @@ export default function AdminPage() {
 
                 <div className="grid gap-4">
                   {users.map((u) => (
-                    <div key={u.id} className="card p-6 bg-[#132b1a] hover:bg-[#1a3d22] border-white/5 rounded-[28px] flex flex-col md:flex-row items-center justify-between gap-6 group transition-all duration-500">
+                    <div key={u.id} className="card !p-6 flex flex-col md:flex-row items-center justify-between gap-6 group hover:border-emerald-200 transition-all duration-500 cursor-pointer">
                       <div className="flex-1 min-w-0 flex items-center gap-6">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-lime-500 p-0.5 shrink-0">
-                          <div className="w-full h-full rounded-[14px] bg-emerald-950 flex items-center justify-center text-white font-black text-lg">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-0.5 shrink-0">
+                          <div className="w-full h-full rounded-[14px] bg-white flex items-center justify-center text-emerald-600 font-bold text-lg">
                             {u.firstName[0]}{u.lastName[0]}
                           </div>
                         </div>
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-3 mb-1">
-                            <h4 className="font-bold text-white text-lg truncate group-hover:text-green-400 transition-colors">{u.firstName} {u.lastName}</h4>
+                            <h4 className="font-bold text-slate-900 text-lg truncate group-hover:text-emerald-600 transition-colors">{u.firstName} {u.lastName}</h4>
                             <StatusBadge status={u.status} />
                             {u.chemicalProfile && (
-                              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest bg-cyan-50 text-cyan-600 border border-cyan-100">
                                 <FlaskConical size={10} /> {t('auth.specialization_chemical')}
                               </span>
                             )}
                           </div>
-                          <div className="text-xs text-slate-500 font-medium italic mb-2">{u.email} • {u.phone}</div>
-                          <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-700">
+                          <div className="text-xs text-slate-500 font-medium mb-2">{u.email} • {u.phone}</div>
+                          <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                             <span className="flex items-center gap-1"><MapPin size={12} /> {u.volunteerProfile?.city || 'Globe'}</span>
                             <span className="flex items-center gap-1"><FileText size={12} /> {u._count.applications} {t('admin.applications')}</span>
                           </div>
@@ -419,7 +421,7 @@ export default function AdminPage() {
                       <div className="flex items-center gap-3 shrink-0">
                         <button
                           onClick={() => setSelectedUser(u)}
-                          className="px-6 py-3 bg-[#0a1a0f] text-slate-400 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-white hover:bg-black transition-all"
+                          className="px-6 py-3 bg-slate-50 text-slate-600 border border-slate-100 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-100 transition-all"
                         >
                           {t('admin.view_profile')}
                         </button>
@@ -428,7 +430,7 @@ export default function AdminPage() {
                           {u.status !== 'approved' && (
                             <button
                               onClick={() => updateStatus(u.id, 'approved')}
-                              className="w-10 h-10 flex items-center justify-center bg-green-500/10 text-green-500 border border-green-500/20 rounded-xl hover:bg-green-500 hover:text-black transition-all"
+                              className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl hover:bg-emerald-500 hover:text-white transition-all"
                               title="Set Approved"
                             >
                               <CheckCircle size={18} />
@@ -437,7 +439,7 @@ export default function AdminPage() {
                           {u.status !== 'rejected' && (
                             <button
                               onClick={() => updateStatus(u.id, 'rejected')}
-                              className="w-10 h-10 flex items-center justify-center bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl hover:bg-rose-500 hover:text-white transition-all"
+                              className="w-10 h-10 flex items-center justify-center bg-rose-50 text-rose-600 border border-rose-100 rounded-xl hover:bg-rose-500 hover:text-white transition-all"
                               title="Set Rejected"
                             >
                               <XCircle size={18} />
@@ -446,7 +448,7 @@ export default function AdminPage() {
                           {user?.id !== u.id && (
                             <button
                               onClick={() => handleDeleteUser(u.id)}
-                              className="w-10 h-10 flex items-center justify-center bg-red-600/10 text-red-500 border border-red-600/20 rounded-xl hover:bg-red-600 hover:text-white transition-all"
+                              className="w-10 h-10 flex items-center justify-center bg-red-50 text-red-600 border border-red-100 rounded-xl hover:bg-red-600 hover:text-white transition-all"
                               title="Delete User"
                             >
                               <Trash2 size={18} />
@@ -457,43 +459,43 @@ export default function AdminPage() {
                     </div>
                   ))}
                   {users.length === 0 && (
-                    <div className="text-center py-32 card bg-transparent border-dashed border-white/10 rounded-[40px]">
-                      <Search size={48} className="mx-auto mb-6 text-green-900/20" />
-                      <p className="text-slate-600 font-bold italic">No explorers found matching your criteria</p>
+                    <div className="text-center py-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl">
+                      <Search size={48} className="mx-auto mb-6 text-slate-300" />
+                      <p className="text-slate-500 font-semibold">No explorers found matching your criteria</p>
                     </div>
                   )}
                 </div>
 
                 {/* USER DETAILS MODAL */}
                 {selectedUser && (
-                  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-[#0a1a0fb0] backdrop-blur-2xl animate-fade-in">
-                    <div className="bg-[#0f2318] border border-white/10 rounded-[40px] w-full max-w-4xl max-h-full overflow-y-auto shadow-4xl relative animate-slide-up scrollbar-hide">
-                      <div className="h-64 relative bg-gradient-to-br from-green-600/20 to-[#0f2318]">
-                        <button onClick={() => setSelectedUser(null)} className="absolute top-8 right-8 p-3 bg-black/40 text-white rounded-full hover:bg-black transition-all z-50">
+                  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-[40px] w-full max-w-4xl max-h-full overflow-y-auto shadow-2xl relative animate-slide-up scrollbar-hide">
+                      <div className="h-64 relative bg-gradient-to-br from-emerald-50 to-white">
+                        <button onClick={() => setSelectedUser(null)} className="absolute top-8 right-8 p-3 bg-slate-100 text-slate-500 rounded-full hover:bg-slate-200 hover:text-slate-700 transition-all z-50">
                           <XCircle size={24} />
                         </button>
-                        <div className="absolute inset-0 flex items-end p-10 md:p-16 bg-gradient-to-t from-[#0f2318] to-transparent">
+                        <div className="absolute inset-0 flex items-end p-10 md:p-16 bg-gradient-to-t from-white to-transparent">
                           <div className="flex items-center gap-8">
-                            <div className="w-24 h-24 rounded-[32px] bg-emerald-950 border-4 border-white/5 flex items-center justify-center text-white font-black text-3xl shadow-3xl">
+                            <div className="w-24 h-24 rounded-[32px] bg-emerald-50 border-4 border-white flex items-center justify-center text-emerald-600 font-bold text-4xl shadow-lg shadow-emerald-500/20">
                               {selectedUser.firstName[0]}{selectedUser.lastName[0]}
                             </div>
                             <div>
-                              <div className="flex items-center gap-4 mb-3">
-                                <h2 className="text-4xl font-black text-white">{selectedUser.firstName} {selectedUser.lastName}</h2>
+                              <div className="flex items-center gap-4 mb-2">
+                                <h2 className="text-4xl font-bold text-slate-900">{selectedUser.firstName} {selectedUser.lastName}</h2>
                                 <StatusBadge status={selectedUser.status} />
                               </div>
-                              <p className="text-slate-400 font-bold uppercase tracking-widest text-[11px] mb-1 font-mono">{selectedUser.email}</p>
-                              <p className="text-slate-500 font-medium italic text-sm">{selectedUser.phone} • Join Date: {new Date(selectedUser.createdAt).toLocaleDateString()}</p>
+                              <p className="text-slate-500 font-bold uppercase tracking-widest text-[11px] mb-1">{selectedUser.email}</p>
+                              <p className="text-slate-400 font-medium text-sm">{selectedUser.phone} • Join Date: {new Date(selectedUser.createdAt).toLocaleDateString()}</p>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="p-10 md:p-16">
+                      <div className="p-10 md:p-16 pt-0">
                         <div className="grid md:grid-cols-2 gap-16">
                           <div className="space-y-12">
                             <section>
-                              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8 border-b border-white/5 pb-4">Personal File</h3>
+                              <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-8 border-b border-slate-100 pb-4">Personal File</h3>
                               <div className="grid grid-cols-2 gap-y-8 gap-x-4">
                                 {[
                                   ['Location', selectedUser.volunteerProfile?.city || '—'],
@@ -503,36 +505,36 @@ export default function AdminPage() {
                                   ['Pass Key', selectedUser.plainPassword || 'RESTRICTED'],
                                 ].map(([l, v]) => (
                                   <div key={l}>
-                                    <div className="text-[10px] font-black tracking-widest text-slate-500 uppercase mb-2">{l}</div>
-                                    <div className="text-white font-bold italic">{v}</div>
+                                    <div className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">{l}</div>
+                                    <div className="text-slate-900 font-semibold">{v}</div>
                                   </div>
                                 ))}
                               </div>
                             </section>
 
                             <section>
-                              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8 border-b border-white/5 pb-4">Area of Expertise</h3>
-                              <div className="text-white font-bold italic text-lg leading-relaxed mb-6">{selectedUser.volunteerProfile?.fieldOfStudy || 'General Volunteer'}</div>
+                              <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-8 border-b border-slate-100 pb-4">Area of Expertise</h3>
+                              <div className="text-slate-900 font-semibold text-lg leading-relaxed mb-6">{selectedUser.volunteerProfile?.fieldOfStudy || 'General Volunteer'}</div>
                               <div className="flex flex-wrap gap-2">
                                 {selectedUser.volunteerProfile?.skills?.map(s => (
-                                  <span key={s} className="px-3 py-1 bg-green-500/10 text-green-400 rounded-lg text-[10px] font-black uppercase tracking-widest border border-green-500/20">{s}</span>
+                                  <span key={s} className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-emerald-100">{s}</span>
                                 ))}
                               </div>
                             </section>
 
                             {selectedUser.chemicalProfile && (
-                              <section className="p-8 rounded-[32px] bg-blue-500/5 border border-blue-500/10">
-                                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-6 flex items-center gap-3">
+                              <section className="p-8 rounded-[32px] bg-cyan-50 border border-cyan-100">
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-cyan-600 mb-6 flex items-center gap-3">
                                   <FlaskConical size={14} /> Chemical Engineering Dossier
                                 </h3>
                                 <div className="space-y-6">
                                   <div>
-                                    <div className="text-[9px] font-black text-slate-500 uppercase mb-2">Specialization</div>
-                                    <div className="text-white font-bold">{selectedUser.chemicalProfile.specialization}</div>
+                                    <div className="text-[9px] font-bold text-slate-400 uppercase mb-2">Specialization</div>
+                                    <div className="text-cyan-900 font-semibold">{selectedUser.chemicalProfile.specialization}</div>
                                   </div>
                                   <div className="flex flex-wrap gap-1.5">
                                     {[...selectedUser.chemicalProfile.softwareSkills, ...selectedUser.chemicalProfile.laboratorySkills].map(s => (
-                                      <span key={s} className="px-2 py-0.5 bg-blue-500/10 text-blue-300 rounded text-[9px] border border-blue-500/10">{s}</span>
+                                      <span key={s} className="px-2 py-0.5 bg-cyan-100/50 text-cyan-700 rounded text-[9px] border border-cyan-200/50">{s}</span>
                                     ))}
                                   </div>
                                 </div>
@@ -540,10 +542,10 @@ export default function AdminPage() {
                             )}
                           </div>
 
-                          <div className="space-y-12">
+                          <div className="space-y-12 flex flex-col h-full">
                             <section>
-                              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8 border-b border-white/5 pb-4">Motivation Statement</h3>
-                              <div className="bg-black/20 p-8 rounded-[32px] border border-white/5 text-slate-400 text-sm font-medium italic leading-relaxed whitespace-pre-line max-h-80 overflow-y-auto scrollbar-hide">
+                              <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-8 border-b border-slate-100 pb-4">Motivation Statement</h3>
+                              <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-100 text-slate-600 text-sm font-medium leading-relaxed whitespace-pre-line max-h-80 overflow-y-auto scrollbar-hide">
                                 "{selectedUser.volunteerProfile?.motivationLetter || "No statement provided."}"
                               </div>
                             </section>
@@ -553,13 +555,13 @@ export default function AdminPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                   <button
                                     onClick={() => { updateStatus(selectedUser.id, 'rejected'); setSelectedUser(null); }}
-                                    className="flex items-center justify-center gap-3 py-5 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-[20px] font-black uppercase tracking-widest text-[10px] hover:bg-rose-500 hover:text-white transition-all"
+                                    className="flex items-center justify-center gap-3 py-4 bg-rose-50 text-rose-600 border border-rose-100 rounded-[20px] font-bold uppercase tracking-widest text-[10px] hover:bg-rose-500 hover:text-white transition-all shadow-sm"
                                   >
                                     <XCircle size={16} /> REJECT ACCESS
                                   </button>
                                   <button
                                     onClick={() => { updateStatus(selectedUser.id, 'approved'); setSelectedUser(null); }}
-                                    className="flex items-center justify-center gap-3 py-5 bg-green-600 text-black rounded-[20px] font-black uppercase tracking-widest text-[10px] hover:bg-green-400 transition-all shadow-2xl shadow-green-500/30"
+                                    className="flex items-center justify-center gap-3 py-4 bg-emerald-500 text-white rounded-[20px] font-bold uppercase tracking-widest text-[10px] hover:bg-emerald-600 transition-all shadow-md shadow-emerald-500/20"
                                   >
                                     <CheckCircle size={16} /> VERIFY EXPLORER
                                   </button>
@@ -567,7 +569,7 @@ export default function AdminPage() {
                               )}
                               <button
                                 onClick={() => setSelectedUser(null)}
-                                className="py-5 bg-white/5 text-slate-500 rounded-[20px] font-black uppercase tracking-widest text-[10px] hover:text-white hover:bg-white/10 transition-all"
+                                className="py-4 bg-slate-50 text-slate-500 rounded-[20px] font-bold uppercase tracking-widest text-[10px] hover:text-slate-900 hover:bg-slate-100 transition-all"
                               >
                                 Close File
                               </button>
@@ -585,32 +587,32 @@ export default function AdminPage() {
             {tab === 'projects' && (
               <div className="space-y-8">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-black text-white tracking-tight">{t('admin.active_deployments')}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{t('admin.active_deployments')}</h3>
                   <button
                     onClick={() => setShowCreateProject(!showCreateProject)}
-                    className={`btn-primary !px-8 !py-4 group ${showCreateProject ? 'bg-rose-500 border-rose-500' : ''}`}
+                    className={`btn-primary !px-6 !py-3 group ${showCreateProject ? '!bg-rose-500 flex items-center gap-2' : '!py-3 flex items-center gap-2'}`}
                   >
-                    {showCreateProject ? <XCircle size={18} /> : <Plus size={18} className="group-hover:rotate-90 transition-transform" />}
-                    <span className="text-[10px] font-black uppercase tracking-widest">{showCreateProject ? t('common.cancel') : t('admin.initiate_project')}</span>
+                    {showCreateProject ? <XCircle size={16} /> : <Plus size={16} className="group-hover:rotate-90 transition-transform" />}
+                    <span className="text-[10px] font-bold uppercase tracking-widest">{showCreateProject ? t('common.cancel') : t('admin.initiate_project')}</span>
                   </button>
                 </div>
 
                 {showCreateProject && (
-                  <div className="card p-10 bg-emerald-950/20 border-green-500/20 rounded-[40px] animate-slide-up">
-                    <h3 className="text-xs font-black uppercase tracking-[0.3em] text-green-500 mb-8">{t('admin.deployment_config')}</h3>
+                  <div className="card !p-10 bg-emerald-50/50 border-emerald-100 rounded-[40px] animate-slide-up">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-8">{t('admin.deployment_config')}</h3>
                     <div className="grid lg:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Mission Title (EN) *</label>
-                          <input className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6" value={newProject.title} onChange={(e) => setNewProject(p => ({ ...p, title: e.target.value }))} />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Mission Title (EN) *</label>
+                          <input className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6" value={newProject.title} onChange={(e) => setNewProject(p => ({ ...p, title: e.target.value }))} />
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Missiya Başlığı (AZ)</label>
-                          <input className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6" value={newProject.titleAz} onChange={(e) => setNewProject(p => ({ ...p, titleAz: e.target.value }))} />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Missiya Başlığı (AZ)</label>
+                          <input className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6" value={newProject.titleAz} onChange={(e) => setNewProject(p => ({ ...p, titleAz: e.target.value }))} />
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Category Dossier *</label>
-                          <select className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6 appearance-none" value={newProject.category} onChange={(e) => setNewProject(p => ({ ...p, category: e.target.value }))}>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Category Dossier *</label>
+                          <select className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6 appearance-none text-slate-700" value={newProject.category} onChange={(e) => setNewProject(p => ({ ...p, category: e.target.value }))}>
                             <option value="">Select Category</option>
                             <option value="Social">Social 🤝</option>
                             <option value="Technical">Technical 💻</option>
@@ -619,8 +621,8 @@ export default function AdminPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">{t('admin.complexity_rank')}</label>
-                          <select className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6 appearance-none" value={newProject.complexityLevel} onChange={(e) => setNewProject(p => ({ ...p, complexityLevel: e.target.value }))}>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">{t('admin.complexity_rank')}</label>
+                          <select className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6 appearance-none text-slate-700" value={newProject.complexityLevel} onChange={(e) => setNewProject(p => ({ ...p, complexityLevel: e.target.value }))}>
                             <option value="low">{t('projects.complexity.low')}</option>
                             <option value="medium">{t('projects.complexity.medium')}</option>
                             <option value="high">{t('projects.complexity.high')}</option>
@@ -632,46 +634,46 @@ export default function AdminPage() {
                       <div className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Base (EN)</label>
-                            <input className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6" value={newProject.location} onChange={(e) => setNewProject(p => ({ ...p, location: e.target.value }))} />
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Base (EN)</label>
+                            <input className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6" value={newProject.location} onChange={(e) => setNewProject(p => ({ ...p, location: e.target.value }))} />
                           </div>
                           <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Base (AZ)</label>
-                            <input className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6" value={newProject.locationAz} onChange={(e) => setNewProject(p => ({ ...p, locationAz: e.target.value }))} />
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Base (AZ)</label>
+                            <input className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6" value={newProject.locationAz} onChange={(e) => setNewProject(p => ({ ...p, locationAz: e.target.value }))} />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Mission Memo (EN) *</label>
-                          <textarea rows={4} className="input-field !rounded-2xl !bg-black/40 !border-white/5 px-6 pt-4 resize-none" value={newProject.description} onChange={(e) => setNewProject(p => ({ ...p, description: e.target.value }))} />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Mission Memo (EN) *</label>
+                          <textarea rows={4} className="input-field !rounded-2xl !bg-white !border-slate-200 px-6 pt-4 resize-none" value={newProject.description} onChange={(e) => setNewProject(p => ({ ...p, description: e.target.value }))} />
                         </div>
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Missiya Detalları (AZ)</label>
-                          <textarea rows={4} className="input-field !rounded-2xl !bg-black/40 !border-white/5 px-6 pt-4 resize-none" value={newProject.descriptionAz} onChange={(e) => setNewProject(p => ({ ...p, descriptionAz: e.target.value }))} />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Missiya Detalları (AZ)</label>
+                          <textarea rows={4} className="input-field !rounded-2xl !bg-white !border-slate-200 px-6 pt-4 resize-none" value={newProject.descriptionAz} onChange={(e) => setNewProject(p => ({ ...p, descriptionAz: e.target.value }))} />
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-8 grid md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+                    <div className="mt-8 grid md:grid-cols-2 gap-8 pt-8 border-t border-emerald-100/50">
                       <div className="space-y-6">
                         <div>
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Skills Reqd (EN, CSV)</label>
-                          <input className="input-field h-14 !rounded-2xl !bg-black/40 !border-white/5 px-6" value={newProject.requiredSkills} onChange={(e) => setNewProject(p => ({ ...p, requiredSkills: e.target.value }))} placeholder="React, Node, Research" />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Skills Reqd (EN, CSV)</label>
+                          <input className="input-field h-14 !rounded-2xl !bg-white !border-slate-200 px-6" value={newProject.requiredSkills} onChange={(e) => setNewProject(p => ({ ...p, requiredSkills: e.target.value }))} placeholder="React, Node, Research" />
                         </div>
-                        <div className="flex items-center gap-4 bg-black/40 p-4 rounded-2xl border border-white/5">
+                        <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200">
                           <input
                             type="checkbox"
                             id="safety"
-                            className="w-5 h-5 rounded border-white/10 bg-black/40 text-green-500 focus:ring-green-500"
+                            className="w-5 h-5 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
                             checked={newProject.safetyCertificationRequired}
                             onChange={(e) => setNewProject(p => ({ ...p, safetyCertificationRequired: e.target.checked }))}
                           />
-                          <label htmlFor="safety" className="text-xs font-bold text-slate-300 select-none">STEM/Chemical Safety Certification Required</label>
+                          <label htmlFor="safety" className="text-sm font-semibold text-slate-700 select-none">STEM/Chemical Safety Certification Required</label>
                         </div>
                       </div>
-                      <div className="space-y-6">
-                        <div className="flex gap-4">
-                          <button className="flex-1 py-5 bg-white/5 text-slate-500 rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 hover:text-white transition-all" onClick={() => setShowCreateProject(false)}>{t('common.cancel')}</button>
-                          <button className="flex-[2] py-5 bg-green-600 text-black rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-green-400 transition-all shadow-3xl shadow-green-500/20 disabled:opacity-50" onClick={createProject} disabled={loading}>
+                      <div className="space-y-6 flex items-end">
+                        <div className="flex gap-4 w-full">
+                          <button className="flex-1 py-4 bg-slate-100 text-slate-500 rounded-[20px] font-bold uppercase tracking-widest text-[10px] hover:bg-slate-200 hover:text-slate-700 transition-all" onClick={() => setShowCreateProject(false)}>{t('common.cancel')}</button>
+                          <button className="flex-[2] py-4 bg-emerald-500 text-white rounded-[20px] font-bold uppercase tracking-widest text-[10px] hover:bg-emerald-600 transition-all shadow-md shadow-emerald-500/20 disabled:opacity-50" onClick={createProject} disabled={loading}>
                             {loading ? t('common.loading') : t('admin.initiate_project')}
                           </button>
                         </div>
@@ -682,25 +684,24 @@ export default function AdminPage() {
 
                 <div className="grid gap-4">
                   {projects.map((p) => (
-                    <div key={p.id} className="card p-8 bg-[#132b1a] hover:bg-[#1a3d22] border-white/5 rounded-[32px] flex items-center justify-between group transition-all duration-500 shadow-xl">
-                      <div className="flex items-center gap-8 flex-1 min-w-0">
-                        <div className="shrink-0 w-16 h-16 rounded-[24px] bg-green-600/10 flex items-center justify-center text-green-500 border border-green-500/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                    <div key={p.id} className="card !p-6 md:!p-8 flex items-center justify-between group transition-all duration-500 hover:border-emerald-200 shadow-sm cursor-pointer">
+                      <div className="flex items-center gap-6 md:gap-8 flex-1 min-w-0">
+                        <div className="shrink-0 w-16 h-16 rounded-[20px] bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                           <FolderOpen size={28} />
                         </div>
                         <div className="min-w-0">
-                          <h4 className="text-xl font-black text-white mb-2 truncate group-hover:text-green-400 transition-colors uppercase tracking-tight">{p.title}</h4>
-                          <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-600">
-                            <span className="px-2 py-0.5 bg-black/40 rounded border border-white/5 text-green-500/60">{p.category}</span>
-                            <span className="opacity-40">{p.complexityLevel} Rank</span>
-                            <span className="opacity-40">{p._count.applications} Applicants</span>
+                          <h4 className="text-xl font-bold text-slate-900 mb-2 truncate group-hover:text-emerald-600 transition-colors tracking-tight">{p.title}</h4>
+                          <div className="flex flex-wrap items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                            <span className="px-2.5 py-1 bg-slate-50 rounded-lg border border-slate-100 text-emerald-600">{p.category}</span>
+                            <span>{p.complexityLevel} Rank</span>
+                            <span>{p._count.applications} Applicants</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 shrink-0">
-                        <div className="h-10 w-px bg-white/5" />
+                      <div className="flex items-center gap-4 shrink-0 pl-4 border-l border-slate-100 h-16">
                         <button
                           onClick={() => deleteProject(p.id)}
-                          className="w-12 h-12 flex items-center justify-center bg-rose-500/10 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all"
+                          className="w-12 h-12 flex items-center justify-center bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all shadow-sm border border-rose-100"
                           title="Abort Operation"
                         >
                           <Trash size={18} />
@@ -709,9 +710,9 @@ export default function AdminPage() {
                     </div>
                   ))}
                   {projects.length === 0 && (
-                    <div className="text-center py-32 card bg-transparent border-dashed border-white/10 rounded-[40px]">
-                      <FolderOpen size={48} className="mx-auto mb-6 text-green-900/20" />
-                      <p className="text-slate-600 font-bold italic">No active missions indexed</p>
+                    <div className="text-center py-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl">
+                      <FolderOpen size={48} className="mx-auto mb-6 text-slate-300" />
+                      <p className="text-slate-500 font-semibold">No active missions indexed</p>
                     </div>
                   )}
                 </div>
@@ -722,10 +723,10 @@ export default function AdminPage() {
             {tab === 'applications' && (
               <div className="space-y-8">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-black text-white tracking-tight">Project Applications</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Project Applications</h3>
                   <div className="flex gap-4">
                     <select
-                      className="input-field h-12 !bg-black/20 !border-white/5 !rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+                      className="input-field h-12 !bg-white !border-slate-200 !rounded-xl px-4 text-[10px] font-bold uppercase tracking-widest text-slate-600"
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
                     >
@@ -739,22 +740,22 @@ export default function AdminPage() {
 
                 <div className="grid gap-4">
                   {applications.map((app) => (
-                    <div key={app.id} className="card p-6 bg-[#132b1a] hover:bg-[#1a3d22] border-white/5 rounded-[28px] flex flex-col md:flex-row items-center justify-between gap-6 group transition-all duration-500">
+                    <div key={app.id} className="card !p-6 flex flex-col md:flex-row items-center justify-between gap-6 group hover:border-emerald-200 transition-all duration-500">
                       <div className="flex-1 min-w-0 flex items-center gap-6">
-                        <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 border border-green-500/20">
+                        <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100">
                           <FileText size={20} />
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-3 mb-1">
-                            <h4 className="font-bold text-white text-lg truncate uppercase tracking-tight">
+                            <h4 className="font-bold text-slate-900 text-lg truncate tracking-tight">
                               {app.user.firstName} {app.user.lastName}
                             </h4>
                             <StatusBadge status={app.status} />
                           </div>
-                          <div className="text-xs text-slate-500 font-medium italic mb-2">
-                            Applying for: <span className="text-green-400 font-bold">{app.project.title}</span> ({app.project.category})
+                          <div className="text-xs text-slate-500 font-medium mb-2">
+                            Applying for: <span className="text-emerald-600 font-bold">{app.project.title}</span> ({app.project.category})
                           </div>
-                          <div className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                             User Email: {app.user.email} • Date: {new Date(app.createdAt).toLocaleDateString()}
                           </div>
                         </div>
@@ -765,13 +766,13 @@ export default function AdminPage() {
                           <div className="flex gap-2">
                             <button
                               onClick={() => updateAppStatus(app.id, 'approved')}
-                              className="px-4 py-2 bg-green-500 text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-400 transition-all"
+                              className="px-4 py-2 bg-emerald-500 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-sm"
                             >
                               Approve
                             </button>
                             <button
                               onClick={() => updateAppStatus(app.id, 'rejected')}
-                              className="px-4 py-2 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all"
+                              className="px-4 py-2 bg-rose-50 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all shadow-sm"
                             >
                               Reject
                             </button>
@@ -780,7 +781,7 @@ export default function AdminPage() {
                         {app.status !== 'pending' && (
                           <button
                             onClick={() => updateAppStatus(app.id, 'pending')}
-                            className="px-4 py-2 bg-white/5 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:text-white transition-all"
+                            className="px-4 py-2 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 hover:text-slate-700 transition-all"
                           >
                             Reset to Pending
                           </button>
@@ -789,9 +790,9 @@ export default function AdminPage() {
                     </div>
                   ))}
                   {applications.length === 0 && (
-                    <div className="text-center py-32 card bg-transparent border-dashed border-white/10 rounded-[40px]">
-                      <Clock size={48} className="mx-auto mb-6 text-green-900/20" />
-                      <p className="text-slate-600 font-bold italic">No project applications indexed</p>
+                    <div className="text-center py-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[32px]">
+                      <Clock size={48} className="mx-auto mb-6 text-slate-300" />
+                      <p className="text-slate-500 font-semibold">No project applications indexed</p>
                     </div>
                   )}
                 </div>
@@ -802,36 +803,36 @@ export default function AdminPage() {
             {tab === 'files' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-white tracking-tight">{t('admin.filesystem')}</h3>
-                  <div className="px-4 py-2 rounded-full bg-green-500/5 border border-green-500/20 text-[9px] font-black text-green-500/60 uppercase tracking-[0.3em]">
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{t('admin.filesystem')}</h3>
+                  <div className="px-4 py-2 rounded-lg bg-emerald-50 border border-emerald-100 text-[9px] font-bold text-emerald-600 uppercase tracking-widest">
                     {files.length} Secure Fragments
                   </div>
                 </div>
 
                 <div className="grid gap-4">
                   {files.map((file) => (
-                    <div key={file} className="card p-6 bg-[#0f2318]/60 border-white/5 rounded-[28px] flex items-center justify-between group hover:bg-[#132b1a] transition-all">
+                    <div key={file} className="card !p-6 flex items-center justify-between group hover:border-emerald-200 transition-all">
                       <div className="flex items-center gap-6">
-                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-500 border border-white/5 group-hover:border-green-500/20 group-hover:text-green-400 transition-all">
+                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-100 group-hover:bg-emerald-50 group-hover:border-emerald-100 group-hover:text-emerald-500 transition-all">
                           <FileText size={20} />
                         </div>
                         <div>
-                          <p className="text-sm text-white font-mono font-bold group-hover:text-green-400 transition-colors">{file}</p>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-600 mt-1 italic">Type: Application Document</p>
+                          <p className="text-sm text-slate-900 font-mono font-bold group-hover:text-emerald-600 transition-colors">{file}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Type: Application Document</p>
                         </div>
                       </div>
                       <button
                         onClick={() => downloadFile(file)}
-                        className="flex items-center gap-3 px-6 py-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-green-600 hover:text-black transition-all"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-500 hover:border-emerald-500 hover:text-white transition-all shadow-sm"
                       >
                         <Download size={14} /> {t('admin.download')}
                       </button>
                     </div>
                   ))}
                   {files.length === 0 && (
-                    <div className="text-center py-32 card bg-transparent border-dashed border-white/10 rounded-[40px]">
-                      <Award size={48} className="mx-auto mb-6 text-green-900/20" />
-                      <p className="text-slate-600 font-bold italic">Filesystem empty. No documents found.</p>
+                    <div className="text-center py-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[32px]">
+                      <Award size={48} className="mx-auto mb-6 text-slate-300" />
+                      <p className="text-slate-500 font-semibold">Filesystem empty. No documents found.</p>
                     </div>
                   )}
                 </div>
@@ -840,19 +841,6 @@ export default function AdminPage() {
           </main>
         </div>
       </div>
-
-      <style jsx global>{`
-        .shadow-4xl {
-          box-shadow: 0 48px 120px -32px rgba(0, 0, 0, 0.7);
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 }
