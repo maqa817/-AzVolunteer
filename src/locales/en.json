@@ -5,9 +5,7 @@
     "projects": "Projects",
     "contact": "Contact",
     "login": "Sign In",
-    "register_title": "Become a Volunteer",
-    "register_subtitle": "Fill out the form to join the AzVolunteer platform",
-    "submit_register": "Register",
+    "register": "Register",
     "dashboard": "Dashboard",
     "logout": "Logout"
   },
@@ -39,6 +37,9 @@
   },
   "auth": {
     "login_title": "Sign in to your account",
+    "register_title": "Become a Volunteer",
+    "register_subtitle": "Fill out the form to join the AzVolunteer platform",
+    "submit_register": "Register",
     "email": "Email address",
     "password": "Password",
     "first_name": "First Name",
