@@ -17,10 +17,6 @@
 }
 
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
-
   html {
     scroll-behavior: smooth;
   }
@@ -149,58 +145,10 @@
   }
 }
 
-/* ── Animations ── */
-.animate-fade-in {
-  opacity: 0;
-  animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-slide-up {
-  opacity: 0;
-  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -209,9 +157,8 @@
 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  border-radius: 10px;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
