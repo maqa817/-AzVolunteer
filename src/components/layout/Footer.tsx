@@ -51,7 +51,7 @@ export default function Footer() {
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                 {t('footer.social')}
               </span>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+              <a href="https://www.linkedin.com/in/nizami-m%C9%99likov-7a51b83b6/" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
                 LinkedIn
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-emerald-600 font-bold transition-colors">
