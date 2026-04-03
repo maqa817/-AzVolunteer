@@ -78,15 +78,6 @@ npm run dev
 
 ---
 
-## 🔐 Default Admin Credentials
-
-```
-Email:    admin@azvolunteer.az
-Password: Admin@12345
-```
-
----
-
 ## 📡 API Endpoints
 
 ### Authentication
